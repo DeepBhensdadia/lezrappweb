@@ -416,19 +416,19 @@ class _setting_screenState extends State<setting_screen> {
                         yes: false,
                         image: "assets/new/m/manage-staff.png",
                         setting: "ManageStaff".tr),
-                _summarycontroller.staff.isTrue
-                    ? SizedBox()
-                    : saveuser()?.company.isPrimaryAccount != "1"
-                        ? SizedBox()
-                        : settings(
-                            ontap: () {
-                              Get.to(
-                                subscriptions_screens(),
-                              );
-                            },
-                            yes: false,
-                            image: "assets/settings/sub.png",
-                            setting: "Subscription".tr),
+                // _summarycontroller.staff.isTrue
+                //     ? SizedBox()
+                //     : saveuser()?.company.isPrimaryAccount != "1"
+                //         ? SizedBox()
+                //         : settings(
+                //             ontap: () {
+                //               Get.to(
+                //                 subscriptions_screens(),
+                //               );
+                //             },
+                //             yes: false,
+                //             image: "assets/settings/sub.png",
+                //             setting: "Subscription".tr),
                 // settings(
                 //     ontap: () {
                 //       Get.to(
@@ -497,7 +497,6 @@ class _setting_screenState extends State<setting_screen> {
                 //     yes: false,
                 //     image: "assets/settings/logout.png",
                 //     setting: "Log Out".tr),
-
 
                 SizedBox(height: 30),
               ],

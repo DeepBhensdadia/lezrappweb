@@ -163,9 +163,15 @@ class _TransactionsState extends State<Transactions>
                                         .totalAmount
                                         .toString(),
                                   ),
-                                ).sublist(0,  transactionConroller
-                                    .alltransactionisnotdeleted.length>400?400:  transactionConroller
-                                    .alltransactionisnotdeleted.length),
+                                ).sublist(
+                                    0,
+                                    transactionConroller
+                                                .alltransactionisnotdeleted
+                                                .length >
+                                            400
+                                        ? 400
+                                        : transactionConroller
+                                            .alltransactionisnotdeleted.length),
                               );
 
                               transactionpdfprint.transactiongenerat(invoice);
@@ -228,13 +234,20 @@ class _TransactionsState extends State<Transactions>
                                         .totalAmount
                                         .toString(),
                                   ),
-                                ).sublist(0, transactionConroller
-                                    .customertransactionisnotdeleted.length>400?400: transactionConroller
-                                    .customertransactionisnotdeleted.length),
+                                ).sublist(
+                                    0,
+                                    transactionConroller
+                                                .customertransactionisnotdeleted
+                                                .length >
+                                            400
+                                        ? 400
+                                        : transactionConroller
+                                            .customertransactionisnotdeleted
+                                            .length),
                               );
 
                               transactionpdfprint.transactiongenerat(invoice);
-                            } else if(index ==2 ) {
+                            } else if (index == 2) {
                               final invoice = transactionInvoice(
                                 supplier: Supplier2(
                                   name: saveuser()?.company.companyName,
@@ -293,9 +306,16 @@ class _TransactionsState extends State<Transactions>
                                         .totalAmount
                                         .toString(),
                                   ),
-                                ).sublist(0,transactionConroller
-                                    .suppliertransactionisnotdeleted.length>400?400:transactionConroller
-                                    .suppliertransactionisnotdeleted.length),
+                                ).sublist(
+                                    0,
+                                    transactionConroller
+                                                .suppliertransactionisnotdeleted
+                                                .length >
+                                            400
+                                        ? 400
+                                        : transactionConroller
+                                            .suppliertransactionisnotdeleted
+                                            .length),
                               );
 
                               transactionpdfprint.transactiongenerat(invoice);
@@ -367,9 +387,7 @@ class _TransactionsState extends State<Transactions>
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xffF1BC5E),
         onPressed: () {
-          Get.to(AddTransaction(
-
-          ));
+          Get.to(AddTransaction());
           // ),
         },
         child: const Icon(Icons.add, color: Colors.black, size: 30),
@@ -394,10 +412,12 @@ class _TransactionsState extends State<Transactions>
                       transactionConroller.alltransactionisnotdeleted.clear();
                     } else if (tab == "1") {
                       transactionConroller.customertransaction.clear();
-                      transactionConroller.customertransactionisnotdeleted.clear();
+                      transactionConroller.customertransactionisnotdeleted
+                          .clear();
                     } else {
                       transactionConroller.suppliertransaction.clear();
-                      transactionConroller.suppliertransactionisnotdeleted.clear();
+                      transactionConroller.suppliertransactionisnotdeleted
+                          .clear();
                     }
                     transactionConroller.sorty_order = "date_asc";
                     transactionConroller.getpages(tab);
@@ -408,10 +428,12 @@ class _TransactionsState extends State<Transactions>
                       transactionConroller.alltransactionisnotdeleted.clear();
                     } else if (tab == "1") {
                       transactionConroller.customertransaction.clear();
-                      transactionConroller.customertransactionisnotdeleted.clear();
+                      transactionConroller.customertransactionisnotdeleted
+                          .clear();
                     } else {
                       transactionConroller.suppliertransaction.clear();
-                      transactionConroller.suppliertransactionisnotdeleted.clear();
+                      transactionConroller.suppliertransactionisnotdeleted
+                          .clear();
                     }
                     transactionConroller.sorty_order = "high_to_low";
 
@@ -423,10 +445,12 @@ class _TransactionsState extends State<Transactions>
                       transactionConroller.alltransactionisnotdeleted.clear();
                     } else if (tab == "1") {
                       transactionConroller.customertransaction.clear();
-                      transactionConroller.customertransactionisnotdeleted.clear();
+                      transactionConroller.customertransactionisnotdeleted
+                          .clear();
                     } else {
                       transactionConroller.suppliertransaction.clear();
-                      transactionConroller.suppliertransactionisnotdeleted.clear();
+                      transactionConroller.suppliertransactionisnotdeleted
+                          .clear();
                     }
                     transactionConroller.sorty_order = "low_to_high";
 
@@ -491,7 +515,7 @@ class _TransactionsState extends State<Transactions>
                       Get.back();
                       transactionConroller.from_date = "";
                       transactionConroller.to_date = "";
-                      transactionConroller.allpage = 0 ;
+                      transactionConroller.allpage = 0;
                       transactionConroller.alltransaction.clear();
                       transactionConroller.getpages(tab);
                     },

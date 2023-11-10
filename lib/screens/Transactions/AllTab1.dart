@@ -421,6 +421,7 @@ class _All_TabState extends State<All_Tab> {
                                                 if (about.transactionType ==
                                                     "Due")
                                                   Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
                                                       Icon(
                                                         Icons.timelapse,

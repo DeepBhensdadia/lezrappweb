@@ -427,6 +427,7 @@ TextEditingController cpcha = TextEditingController();
                             Column(children: [ SizedBox(height: 5),
                               if (about.transactionType == "Due")
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Icon(
                                       Icons.timelapse,

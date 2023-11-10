@@ -282,6 +282,8 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                         ),
                                         SizedBox(height: 5),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             Icon(
                                               Icons.calendar_month,
@@ -347,17 +349,20 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                               color: Colors.grey.shade400,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 2.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 2.0),
                                               child: Text(
                                                 about.getUsername(),
                                                 style: TextStyle(
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    fontFamily: 'SF Pro Display',
+                                                    fontFamily:
+                                                        'SF Pro Display',
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w500,
-                                                    color: Colors.grey.shade500),
+                                                    color:
+                                                        Colors.grey.shade500),
                                               ),
                                             ),
                                           ],
@@ -374,7 +379,8 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
@@ -415,6 +421,8 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                             SizedBox(height: 5),
                                             if (about.transactionType == "Due")
                                               Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
                                                 children: [
                                                   Icon(
                                                     Icons.timelapse,
@@ -431,7 +439,8 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                                           'SF Pro Display',
                                                       fontSize: 12,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ],
@@ -446,8 +455,8 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                                         2
                                                     ? Padding(
                                                         padding:
-                                                            const EdgeInsets.all(
-                                                                4.0),
+                                                            const EdgeInsets
+                                                                .all(4.0),
                                                         child: Text(
                                                           "Edited",
                                                           style: TextStyle(
@@ -460,7 +469,8 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                                     : SizedBox()
                                                 : Padding(
                                                     padding:
-                                                        const EdgeInsets.all(4.0),
+                                                        const EdgeInsets.all(
+                                                            4.0),
                                                     child: Text(
                                                       "Deleted",
                                                       style: TextStyle(

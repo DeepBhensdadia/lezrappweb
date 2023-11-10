@@ -333,10 +333,10 @@ class _HomeState extends State<Home> {
                                                               ],
                                                             ),
                                                             InkWell(
-                                                              onTap: () =>
-                                                                  Get.to(
-                                                                subscriptions_screens(),
-                                                              ),
+                                                              // onTap: () =>
+                                                              //     Get.to(
+                                                              //   subscriptions_screens(),
+                                                              // ),
                                                               child: Container(
                                                                 padding: EdgeInsets
                                                                     .symmetric(

@@ -142,10 +142,10 @@ class My_Business extends StatelessWidget {
                               Stringimage: 'assets/new/l/business-card.png',
                               name: 'Business Card',
                               onPressed: () {
-                                context.loaderOverlay.show();
-                                Future.delayed(Duration(seconds: 3),() {
-                                  context.loaderOverlay.hide();
-                                },);
+                                // context.loaderOverlay.show();
+                                // Future.delayed(Duration(seconds: 3),() {
+                                //   context.loaderOverlay.hide();
+                                // },);
                               },
                             ),
                           ),
@@ -185,7 +185,7 @@ class My_Business extends StatelessWidget {
                                   Stringimage: 'assets/gif/iOrder.png',
                                   name: 'iOrder',
                                   onPressed: () {
-                                    showSuccessPopup(Get.context!);
+                                    // showSuccessPopup(Get.context!);
                                   },
                                 ),
                               ),
