@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lezrapp/Icons_row/photo.dart';
 import 'package:lezrapp/api_model/expense/get_expense_api.dart';
 
+import '../api/const_apis.dart';
+
 class bill extends StatelessWidget {
   bill(  {Key? key,
     required this.about,
@@ -144,7 +146,7 @@ class bill extends StatelessWidget {
                                         Container(
                                           width: 210,
                                           child: Text(
-                                            'Rs ${about.amount} Paid',
+    getformettedamount(text: '${about.amount} Paid'),
                                             style: TextStyle(
                                                 fontFamily: 'SF Pro Display',
                                                 fontSize: 19,

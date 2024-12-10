@@ -56,7 +56,7 @@ class _orders_expensesState extends State<orders_expenses> {
       print(orderConroller.allpage);
     }
   }
-TextEditingController cpcha = TextEditingController();
+  TextEditingController cpcha = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -93,7 +93,7 @@ TextEditingController cpcha = TextEditingController();
                   ),
                   items: List.generate(
                     orderConroller.allexpense.length,
-                    (index) => orderexpenseInvoiceItem(
+                        (index) => orderexpenseInvoiceItem(
                       srno_: "${index + 1}",
                       Date: orderConroller.allexpense[index].dateFormatted,
                       User: orderConroller.allexpense[index].userName == ""
@@ -103,7 +103,7 @@ TextEditingController cpcha = TextEditingController();
                       type: orderConroller.allexpense[index].expenseTitle,
                       amount: orderConroller.allexpense[index].amount,
                     ),
-                  ),
+                  ).toList(),
                 );
                 final pdfFile = await orderexpensepdfprint.ordergenerat(
                   invoice,
@@ -119,459 +119,462 @@ TextEditingController cpcha = TextEditingController();
         ),
         body: Obx(() => orderConroller.allexpense.isNotEmpty
             ? ListView.separated(
-                controller: scrollcontroller,
-                itemCount: orderConroller.allexpense.length,
-                itemBuilder: (context, index) {
-                  Expense_all about = orderConroller.allexpense[index];
-                  return index + 1 == orderConroller.allexpense.length
-                      ? orderConroller.isAllDataLoaded.isTrue
-                          ? Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Center(
-                                  child: CircularProgressIndicator(
-                                color: custom,
-                              )),
-                            )
-                          : SizedBox()
-                      : Visibility(
-                          visible: _summarycontroller.staff.isTrue
-                              ? orderConroller
-                                          .allexpense[index].companyUserId ==
-                                      saveuser()?.user.companyUserId
-                                  ? true
-                                  : false
-                              : true,
-                          child: Slidable(
-                            endActionPane: ActionPane(
-                              extentRatio: 0.4,
-                              motion: const ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  autoClose: true,
-                                  onPressed: (context) {
-                                    Get.to(
-                                      AddExpense( about: about),
-                                    );
-                                  },
-                                  backgroundColor: const Color(0xFF2C4475),
-                                  foregroundColor: Colors.white,
-                                  // icon: Icons.archive,
-                                  label: 'Edit'.tr,
-                                ),
-                                SlidableAction(
-                                  autoClose: true,
-                                  onPressed: (context) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        cpcha.clear();
-                                        String cach = generateCaptchaCode(4);
-                                        return s_code(
-                                          capchacode: cach,
-                                          controll: cpcha,
-                                          onconfirm:
-                                              () async {
+          controller: scrollcontroller,
+          itemCount: orderConroller.allexpense.length,
+          itemBuilder: (context, index) {
+            Expense_all about = orderConroller.allexpense[index];
+            return index + 1 == orderConroller.allexpense.length
+                ? orderConroller.isAllDataLoaded.isTrue
+                ? Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                  child: CircularProgressIndicator(
+                    color: custom,
+                  )),
+            )
+                : SizedBox()
+                : Visibility(
+              visible: _summarycontroller.staff.isTrue
+                  ? orderConroller
+                  .allexpense[index].companyUserId ==
+                  saveuser()?.user.companyUserId
+                  ? true
+                  : false
+                  : true,
+              child: Slidable(
 
-                                            if (cach ==
-                                                cpcha
-                                                    .text) {
-                                              context.loaderOverlay.show();
-                                              delete_expenxe(about.expenseId)
-                                                  .then((value) {
-                                                orderConroller.getexpense2();
-                                                // Fluttertoast.showToast(
-                                                //     msg: value.message ?? "");
-                                                context.loaderOverlay.hide();
+                endActionPane: ActionPane(
 
-                                              }).onError((error, stackTrace) {
-                                                context.loaderOverlay.hide();
-                                                log(error.toString());
-                                              });
+                  extentRatio: 0.4,
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      autoClose: true,
+                      onPressed: (context) {
+                        Get.to(
+                          AddExpense( about: about),
+                        );
+                      },
+                      backgroundColor: const Color(0xFF2C4475),
+                      foregroundColor: Colors.white,
 
-                                            } else {
-                                              Fluttertoast
-                                                  .showToast(
-                                                  msg:
-                                                  "Security code doesn't match!!");
-                                            }
-                                          },
-                                        );
-                                      },
-                                    );
-                                    // alertbox(
-                                    //   context: context,
-                                    //   titletext: "Remove Expense",
-                                    //   contain:
-                                    //       'Would you like to remove expense?',
-                                    //   confirmbutton: "Remove",
-                                    //   ontap: () {
-                                    //
-                                    //   },
-                                    // );
-                                  },
-                                  backgroundColor: const Color(0xFFEB4359),
-                                  foregroundColor: Colors.white,
-                                  // icon: Icons.save,
-                                  label: 'Delete'.tr,
-                                ),
-                              ],
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                Get.to(bill(
-                                  about: about,
-                                ));
+                      // icon: Icons.archive,
+                      label: 'Edit'.tr,
+                    ),
+                    SlidableAction(
+                      autoClose: true,
+                      onPressed: (context) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            cpcha.clear();
+                            String cach = generateCaptchaCode(4);
+                            return s_code(
+                              capchacode: cach,
+                              controll: cpcha,
+                              onconfirm:
+                                  () async {
+
+                                if (cach ==
+                                    cpcha
+                                        .text) {
+                                  context.loaderOverlay.show();
+                                  delete_expenxe(about.expenseId)
+                                      .then((value) {
+                                    orderConroller.getexpense2();
+                                    // Fluttertoast.showToast(
+                                    //     msg: value.message ?? "");
+                                    context.loaderOverlay.hide();
+
+                                  }).onError((error, stackTrace) {
+                                    context.loaderOverlay.hide();
+                                    log(error.toString());
+                                  });
+
+                                } else {
+                                  Fluttertoast
+                                      .showToast(
+                                      msg:
+                                      "Security code doesn't match!!");
+                                }
                               },
-                              child: Column(
-                                children: [
-                                  Ink(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: screenwidth(context,
-                                                dividedby: 2),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 0),
-                                                  child: Text(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    about.expenseTitle,
-                                                    // maxLines: 3,
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'SF Pro Display',
-                                                        color:
-                                                            Color(0xFF2C4475),
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.calendar_month,
-                                                      size: 16,
-                                                      color:
-                                                          Colors.grey.shade400,
-                                                    ),
-                                                    Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      about.dateFormatted,
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'SF Pro Display',
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors
-                                                              .grey.shade500),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.person,
-                                                      size: 16,
-                                                      color:
-                                                          Colors.grey.shade400,
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 2.0),
-                                                      child: Text(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        about.companyName,
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'SF Pro Display',
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors
-                                                                .grey.shade500),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.attachment_outlined,
-                                                      color:
-                                                          Colors.grey.shade400,
-                                                      size: 16,
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 2.0),
-                                                      child: Text(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        about.remark,
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'SF Pro Display',
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors
-                                                                .grey.shade500),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                // SizedBox(
-                                                //   height: 10,
-                                                // ),
-                                              about.images.isNotEmpty ?  Icon(Icons.attachment,color: Colors.grey,size: 20,):SizedBox(),
-                                                SizedBox(width: 3,),
-                                                Text(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  'Rs.${about.amount}',
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          'SF Pro Display',
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.red),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
+                            );
+                          },
+                        );
+                        // alertbox(
+                        //   context: context,
+                        //   titletext: "Remove Expense",
+                        //   contain:
+                        //       'Would you like to remove expense?',
+                        //   confirmbutton: "Remove",
+                        //   ontap: () {
+                        //
+                        //   },
+                        // );
+                      },
+                      backgroundColor: const Color(0xFFEB4359),
+                      foregroundColor: Colors.white,
+                      // icon: Icons.save,
+                      label: 'Delete'.tr,
+                    ),
+                  ],
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Get.to(bill(
+                      about: about,
+                    ));
+                  },
+                  child: Column(
+                    children: [
+                      Ink(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 15),
+                          child: Row(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: screenwidth(context,
+                                    dividedby: 2),
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment
+                                      .spaceBetween,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 0),
+                                      child: Text(
+                                        overflow:
+                                        TextOverflow.ellipsis,
+                                        about.expenseTitle,
+                                        // maxLines: 3,
+                                        style: TextStyle(
+                                            fontFamily:
+                                            'SF Pro Display',
+                                            color:
+                                            Color(0xFF2C4475),
+                                            fontSize: 20,
+                                            fontWeight:
+                                            FontWeight.w600),
                                       ),
                                     ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.calendar_month,
+                                          size: 16,
+                                          color:
+                                          Colors.grey.shade400,
+                                        ),
+                                        Text(
+                                          overflow:
+                                          TextOverflow.ellipsis,
+                                          about.dateFormatted,
+                                          style: TextStyle(
+                                              fontFamily:
+                                              'SF Pro Display',
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight.w500,
+                                              color: Colors
+                                                  .grey.shade500),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.person,
+                                          size: 16,
+                                          color:
+                                          Colors.grey.shade400,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets
+                                              .symmetric(
+                                              horizontal: 2.0),
+                                          child: Text(
+                                            overflow: TextOverflow
+                                                .ellipsis,
+                                            about.companyName,
+                                            style: TextStyle(
+                                                fontFamily:
+                                                'SF Pro Display',
+                                                fontSize: 12,
+                                                fontWeight:
+                                                FontWeight.w500,
+                                                color: Colors
+                                                    .grey.shade500),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.attachment_outlined,
+                                          color:
+                                          Colors.grey.shade400,
+                                          size: 16,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets
+                                              .symmetric(
+                                              horizontal: 2.0),
+                                          child: Text(
+                                            overflow: TextOverflow
+                                                .ellipsis,
+                                            about.remark,
+                                            style: TextStyle(
+                                                fontFamily:
+                                                'SF Pro Display',
+                                                fontSize: 12,
+                                                fontWeight:
+                                                FontWeight.w500,
+                                                color: Colors
+                                                    .grey.shade500),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.end,
+                                  children: [
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    about.images.isNotEmpty ?  Icon(Icons.attachment,color: Colors.grey,size: 20,):SizedBox(),
+                                    SizedBox(width: 3,),
+                                    Text(
+                                      overflow:
+                                      TextOverflow.ellipsis,
+                                      getformettedamount(text: '${about.amount}'),
+                                      style: TextStyle(
+                                          fontFamily:
+                                          'SF Pro Display',
+                                          fontSize: 18,
+                                          fontWeight:
+                                          FontWeight.w600,
+                                          color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              replacement: InkWell(
+                onTap: () {
+                  Get.to(bill(about: about,
+                  ));
+                },
+                child: Column(
+                  children: [
+                    Ink(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        child: Row(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // color: custom,
+                              width: screenwidth(context,
+                                  dividedby: 2),
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 0),
+                                    child: Text(
+                                      overflow:
+                                      TextOverflow.ellipsis,
+                                      about.expenseTitle,
+                                      // maxLines: 3,
+                                      style: TextStyle(
+                                          fontFamily:
+                                          'SF Pro Display',
+                                          color: Color(0xFF2C4475),
+                                          fontSize: 18,
+                                          fontWeight:
+                                          FontWeight.w600),
+                                    ),
                                   ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.calendar_month,
+                                        size: 16,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                      Text(
+                                        overflow:
+                                        TextOverflow.ellipsis,
+                                        about.dateFormatted,
+                                        style: TextStyle(
+                                            fontFamily:
+                                            'SF Pro Display',
+                                            fontSize: 12,
+                                            fontWeight:
+                                            FontWeight.w500,
+                                            color: Colors
+                                                .grey.shade500),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.person,
+                                        size: 16,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets
+                                            .symmetric(
+                                            horizontal: 2.0),
+                                        child: Text(
+                                          overflow:
+                                          TextOverflow.ellipsis,
+                                          about.companyName,
+                                          style: TextStyle(
+                                              fontFamily:
+                                              'SF Pro Display',
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight.w500,
+                                              color: Colors
+                                                  .grey.shade500),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.attachment_outlined,
+                                        color: Colors.grey.shade400,
+                                        size: 16,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets
+                                            .symmetric(
+                                            horizontal: 2.0),
+                                        child: Text(
+                                          overflow:
+                                          TextOverflow.ellipsis,
+                                          about.remark,
+                                          style: TextStyle(
+                                              fontFamily:
+                                              'SF Pro Display',
+                                              fontSize: 12,
+                                              fontWeight:
+                                              FontWeight.w500,
+                                              color: Colors
+                                                  .grey.shade500),
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
-                          ),
-                          replacement: InkWell(
-                            onTap: () {
-                              Get.to(bill(about: about,
-                                 ));
-                            },
-                            child: Column(
-                              children: [
-                                Ink(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 15),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          // color: custom,
-                                          width: screenwidth(context,
-                                              dividedby: 2),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 0),
-                                                child: Text(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  about.expenseTitle,
-                                                  // maxLines: 3,
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          'SF Pro Display',
-                                                      color: Color(0xFF2C4475),
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.calendar_month,
-                                                    size: 16,
-                                                    color: Colors.grey.shade400,
-                                                  ),
-                                                  Text(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    about.dateFormatted,
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'SF Pro Display',
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors
-                                                            .grey.shade500),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.person,
-                                                    size: 16,
-                                                    color: Colors.grey.shade400,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 2.0),
-                                                    child: Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      about.companyName,
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'SF Pro Display',
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors
-                                                              .grey.shade500),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.attachment_outlined,
-                                                    color: Colors.grey.shade400,
-                                                    size: 16,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 2.0),
-                                                    child: Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      about.remark,
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'SF Pro Display',
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors
-                                                              .grey.shade500),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              // SizedBox(
-                                              //   height: 10,
-                                              // ),
-                                              Row(
-                                                children: [
-                                                  about.images
-                                                      .isNotEmpty
-                                                      ? Icon(
-                                                    Icons
-                                                        .attachment,
-                                                    color:
-                                                    Colors.grey,
-                                                    size: 20,
-                                                  )
-                                                      : SizedBox(),
-                                                  Text(
-                                                    overflow: TextOverflow.ellipsis,
-                                                    'Rs.${about.amount}',
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'SF Pro Display',
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.w600,
-                                                        color: Colors.red),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                children: [
+                                  // SizedBox(
+                                  //   height: 10,
+                                  // ),
+                                  Row(
+                                    children: [
+                                      about.images
+                                          .isNotEmpty
+                                          ? Icon(
+                                        Icons
+                                            .attachment,
+                                        color:
+                                        Colors.grey,
+                                        size: 20,
+                                      )
+                                          : SizedBox(),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        getformettedamount(text: '${about.amount}'),
+                                        style: TextStyle(
+                                            fontFamily:
+                                            'SF Pro Display',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.red),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return div();
-                },
-              )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return div();
+          },
+        )
             : circulerprogress()),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xffF1BC5E),
@@ -595,19 +598,19 @@ TextEditingController cpcha = TextEditingController();
                   onPressed: () {
                     bottomsheetsort(
                       context,
-                      () {
+                          () {
                         orderConroller.allexpense.clear();
                         orderConroller.sorty_order = "date_asc";
                         orderConroller.getexpense();
                         Get.back();
                       },
-                      () {
+                          () {
                         orderConroller.allexpense.clear();
                         orderConroller.sorty_order = "high_to_low";
                         orderConroller.getexpense();
                         Get.back();
                       },
-                      () {
+                          () {
                         orderConroller.allexpense.clear();
                         orderConroller.sorty_order = "low_to_high";
                         orderConroller.getexpense();
@@ -646,21 +649,21 @@ TextEditingController cpcha = TextEditingController();
                   onPressed: () {
                     bottomsheetfilter(
                       context,
-                      () {
+                          () {
                         Get.back();
                         datedialogbox(
                             context,
-                            (value) {
+                                (value) {
                               orderConroller.from_date = value;
                             },
-                            (val) => orderConroller.to_date = val,
-                            () {
+                                (val) => orderConroller.to_date = val,
+                                () {
                               orderConroller.allexpense.clear();
                               orderConroller.getexpense();
                               Get.back();
                             });
                       },
-                      () {
+                          () {
                         Get.back();
                       },
                     );

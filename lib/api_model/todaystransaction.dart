@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+import '../api/const_apis.dart';
+
 Todaystransaction todaystransactionFromJson(String str) => Todaystransaction.fromJson(json.decode(str));
 
 String todaystransactionToJson(Todaystransaction data) => json.encode(data.toJson());
@@ -72,7 +74,7 @@ class Transaction {
     return userName == "false" ? "Admin" : userName;
   }
   getAmount(){
-    return "₹ ${amount} ${transactionType}" ;
+    return getformettedamount(text: "${amount} ${transactionType}") ;
   }
 
   getAmountColor(){

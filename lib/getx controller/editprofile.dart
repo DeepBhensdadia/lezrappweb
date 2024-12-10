@@ -18,5 +18,4 @@ RxBool show = false.obs;
       print(error);
     });
   }
-
 }

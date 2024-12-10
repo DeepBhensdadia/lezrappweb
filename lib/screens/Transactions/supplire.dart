@@ -262,7 +262,7 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                 Flexible(
                                   flex: 2,
                                   child: Container(
-                                    width: screenwidth(context, dividedby: 1.7),
+                                    // width: screenwidth(context, dividedby: 1.7),
                                     padding: EdgeInsets.all(10),
                                     child: Column(
                                       mainAxisAlignment:
@@ -282,8 +282,6 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                         ),
                                         SizedBox(height: 5),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
                                           children: [
                                             Icon(
                                               Icons.calendar_month,
@@ -300,43 +298,81 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(height: 5),
-                                        (about.transactionComments.isNotEmpty)
-                                            ? Row(
+                                        if(about
+                                            .remark != "")
+                                          Column(
+                                            children: [
+                                              SizedBox(height: 5,),
+                                              Row(
                                                 children: [
-                                                  Image(
-                                                      height: 15,
-                                                      width: 15,
-                                                      image: AssetImage(
-                                                          "assets/icon/Texting.gif")),
-                                                  SizedBox(
-                                                    width: 2,
+                                                  Icon(
+                                                    Icons
+                                                        .comment,
+                                                    size: 14,
+                                                    color: Colors
+                                                        .grey
+                                                        .shade400,
                                                   ),
-                                                  Container(
-                                                    // width:
-                                                    //     screenwidth(
-                                                    //         context,
-                                                    //         dividedby:
-                                                    //             1.7),
-                                                    child: Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      "${about.transactionComments.length} ${about.transactionComments.length == 1 ? "Comment" : "Comments"}",
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'SF Pro Display',
-                                                          fontSize: 12,
-                                                          color: Colors
-                                                              .grey.shade500,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
+                                                  SizedBox(width: 5,),
+                                                  Text(
+                                                    about
+                                                        .remark,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                        'SF Pro Display',
+                                                        fontSize:
+                                                        12,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w600,
+                                                        color: Color(0xff294472)),
                                                   ),
                                                 ],
-                                              )
+                                              ),
+                                            ],
+                                          ),
+                                        (about.transactionComments.isNotEmpty)
+                                            ? Column(
+                                              children: [
+                                                SizedBox(height: 5),
+
+                                                Row(
+                                                    children: [
+                                                      Image(
+                                                          height: 15,
+                                                          width: 15,
+                                                          image: AssetImage(
+                                                              "assets/icon/Texting.gif")),
+                                                      SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                      Container(
+                                                        // width:
+                                                        //     screenwidth(
+                                                        //         context,
+                                                        //         dividedby:
+                                                        //             1.7),
+                                                        child: Text(
+                                                          overflow:
+                                                              TextOverflow.ellipsis,
+                                                          "${about.transactionComments.length} ${about.transactionComments.length == 1 ? "Comment" : "Comments"}",
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'SF Pro Display',
+                                                              fontSize: 12,
+                                                              color: Colors
+                                                                  .grey.shade500,
+                                                              fontWeight:
+                                                                  FontWeight.w500),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                    ],
+                                                  ),
+                                              ],
+                                            )
                                             : SizedBox(),
                                         SizedBox(
                                           height: 5,
@@ -371,118 +407,113 @@ class _Supplire_TabState extends State<Supplire_Tab> {
                                     ),
                                   ),
                                 ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        right: 15, top: 5, bottom: 5),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            about.transactionImages.isNotEmpty
-                                                ? Icon(
-                                                    Icons.attachment,
-                                                    color: Colors.grey,
-                                                    size: 20,
-                                                  )
-                                                : SizedBox(),
-                                            Text(
-                                              about.getAmount(),
-                                              style: TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontFamily: 'SF Pro Display',
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                                color: about.getAmountColor(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          'Balance:'.tr +
-                                              " ₹${about.totalAmount}",
-                                          style: TextStyle(
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      right: 10, top: 5, bottom: 5),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          about.transactionImages.isNotEmpty
+                                              ? Icon(
+                                                  Icons.attachment,
+                                                  color: Colors.grey,
+                                                  size: 20,
+                                                )
+                                              : SizedBox(),
+                                          Text(
+                                            about.getAmount(),
+                                            style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
                                               fontFamily: 'SF Pro Display',
-                                              fontSize: 12,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w600,
-                                              color: Colors.black54),
-                                        ),
-                                        Column(
-                                          children: [
-                                            SizedBox(height: 5),
-                                            if (about.transactionType == "Due")
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Icon(
-                                                    Icons.timelapse,
-                                                    size: 12,
+                                              color: about.getAmountColor(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        'Balance:'.tr +
+                                            getformettedamount(text: "${about.totalAmount}"),
+                                        style: TextStyle(
+                                            fontFamily: 'SF Pro Display',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black54),
+                                      ),
+                                      Column(
+                                        children: [
+                                          SizedBox(height: 5),
+                                          if (about.transactionType == "Due")
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.timelapse,
+                                                  size: 12,
+                                                  color: Colors.black,
+                                                ),
+                                                Text(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  'Due on'.tr +
+                                                      about.dueDateFormatted,
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        'SF Pro Display',
+                                                    fontSize: 12,
                                                     color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500,
                                                   ),
-                                                  Text(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    'Due on'.tr +
-                                                        about.dueDateFormatted,
+                                                ),
+                                              ],
+                                            )
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          about.isDelete == 0
+                                              ? about.transactionTracking
+                                                          .length ==
+                                                      2
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets
+                                                              .all(4.0),
+                                                      child: Text(
+                                                        "Edited",
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    )
+                                                  : SizedBox()
+                                              : Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(
+                                                          4.0),
+                                                  child: Text(
+                                                    "Deleted",
                                                     style: TextStyle(
-                                                      fontFamily:
-                                                          'SF Pro Display',
-                                                      fontSize: 12,
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600),
                                                   ),
-                                                ],
-                                              )
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            about.isDelete == 0
-                                                ? about.transactionTracking
-                                                            .length ==
-                                                        2
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(4.0),
-                                                        child: Text(
-                                                          "Edited",
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                      )
-                                                    : SizedBox()
-                                                : Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
-                                                    child: Text(
-                                                      "Deleted",
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                                )
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 )
                               ],

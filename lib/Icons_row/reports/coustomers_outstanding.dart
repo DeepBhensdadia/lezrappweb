@@ -108,9 +108,9 @@ class _coustomers_outstandingState extends State<coustomers_outstanding> {
                                       custmer.customers[index].customerAddress,
                                   type:
                                       custmer.customers[index].transactionType,
-                                  amount: " Rs ${custmer.customers[index].amount}",
+                                  amount: getformettedamount(text: "${custmer.customers[index].amount}"),
                                 ),
-                              ).sublist(0,custmer.customers.length>450?450:custmer.customers.length),
+                              ).toList(),
                             );
 
                             final pdfFile = await PdfInvoice.generate(invoice);
@@ -171,7 +171,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
                                 ],
                               ),
                               Text(
-                                'Rs. ${custmer.customers[index].amount} ${custmer.customers[index].transactionType}',
+                                getformettedamount(text: '${custmer.customers[index].amount} ${custmer.customers[index].transactionType}'),
                                 style: TextStyle(
                                     fontFamily:
                                     'SF Pro Display',

@@ -7,6 +7,7 @@ import 'package:lezrapp/api/pdfprint.dart';
 import 'package:lezrapp/model/invoice.dart';
 import 'package:lezrapp/screens/Transactions/supplire.dart';
 import 'package:lezrapp/helper.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import '../../api/const_apis.dart';
 import '../../getx controller/transactioncontrollers/transactioncontroller.dart';
 import '../../model/supplier.dart';
@@ -35,6 +36,12 @@ class _TransactionsState extends State<Transactions>
 
   @override
   void initState() {
+    transactionConroller.alltransaction.clear();
+    transactionConroller.customertransaction.clear();
+    transactionConroller.suppliertransaction.clear();
+    transactionConroller.alltransactionisnotdeleted.clear();
+    transactionConroller.customertransactionisnotdeleted.clear();
+    transactionConroller.suppliertransactionisnotdeleted.clear();
     controller = TabController(
       vsync: this,
       initialIndex: index,
@@ -163,15 +170,7 @@ class _TransactionsState extends State<Transactions>
                                         .totalAmount
                                         .toString(),
                                   ),
-                                ).sublist(
-                                    0,
-                                    transactionConroller
-                                                .alltransactionisnotdeleted
-                                                .length >
-                                            400
-                                        ? 400
-                                        : transactionConroller
-                                            .alltransactionisnotdeleted.length),
+                                ).toList(),
                               );
 
                               transactionpdfprint.transactiongenerat(invoice);
@@ -234,20 +233,14 @@ class _TransactionsState extends State<Transactions>
                                         .totalAmount
                                         .toString(),
                                   ),
-                                ).sublist(
-                                    0,
-                                    transactionConroller
-                                                .customertransactionisnotdeleted
-                                                .length >
-                                            400
-                                        ? 400
-                                        : transactionConroller
-                                            .customertransactionisnotdeleted
-                                            .length),
+                                ).toList(),
                               );
-
+context.loaderOverlay.show();
                               transactionpdfprint.transactiongenerat(invoice);
-                            } else if (index == 2) {
+                              context.loaderOverlay.hide();
+
+
+                            } else if(index ==2 ) {
                               final invoice = transactionInvoice(
                                 supplier: Supplier2(
                                   name: saveuser()?.company.companyName,
@@ -264,15 +257,15 @@ class _TransactionsState extends State<Transactions>
                                         .suppliertransactionisnotdeleted[index]
                                         .transactionDateFormatted,
                                     User: transactionConroller
-                                                .suppliertransactionisnotdeleted[
-                                                    index]
-                                                .userName ==
-                                            ""
+                                        .suppliertransactionisnotdeleted[
+                                    index]
+                                        .userName ==
+                                        ""
                                         ? saveuser()!.company.companyName
                                         : transactionConroller
-                                            .suppliertransactionisnotdeleted[
-                                                index]
-                                            .userName,
+                                        .suppliertransactionisnotdeleted[
+                                    index]
+                                        .userName,
                                     remark: transactionConroller
                                         .suppliertransactionisnotdeleted[index]
                                         .remark,
@@ -280,42 +273,33 @@ class _TransactionsState extends State<Transactions>
                                         .suppliertransactionisnotdeleted[index]
                                         .customerName,
                                     credit: transactionConroller
-                                                .suppliertransactionisnotdeleted[
-                                                    index]
-                                                .transactionType ==
-                                            "Due"
+                                        .suppliertransactionisnotdeleted[
+                                    index]
+                                        .transactionType ==
+                                        "Due"
                                         ? ""
                                         : transactionConroller
-                                            .suppliertransactionisnotdeleted[
-                                                index]
-                                            .amount
-                                            .toString(),
+                                        .suppliertransactionisnotdeleted[
+                                    index]
+                                        .amount
+                                        .toString(),
                                     debit: transactionConroller
-                                                .suppliertransactionisnotdeleted[
-                                                    index]
-                                                .transactionType ==
-                                            "Paid"
+                                        .suppliertransactionisnotdeleted[
+                                    index]
+                                        .transactionType ==
+                                        "Paid"
                                         ? ""
                                         : transactionConroller
-                                            .suppliertransactionisnotdeleted[
-                                                index]
-                                            .amount
-                                            .toString(),
+                                        .suppliertransactionisnotdeleted[
+                                    index]
+                                        .amount
+                                        .toString(),
                                     blance: transactionConroller
                                         .suppliertransactionisnotdeleted[index]
                                         .totalAmount
                                         .toString(),
                                   ),
-                                ).sublist(
-                                    0,
-                                    transactionConroller
-                                                .suppliertransactionisnotdeleted
-                                                .length >
-                                            400
-                                        ? 400
-                                        : transactionConroller
-                                            .suppliertransactionisnotdeleted
-                                            .length),
+                                ).toList(),
                               );
 
                               transactionpdfprint.transactiongenerat(invoice);
@@ -387,7 +371,9 @@ class _TransactionsState extends State<Transactions>
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xffF1BC5E),
         onPressed: () {
-          Get.to(AddTransaction());
+          Get.to(AddTransaction(
+
+          ));
           // ),
         },
         child: const Icon(Icons.add, color: Colors.black, size: 30),
@@ -412,12 +398,10 @@ class _TransactionsState extends State<Transactions>
                       transactionConroller.alltransactionisnotdeleted.clear();
                     } else if (tab == "1") {
                       transactionConroller.customertransaction.clear();
-                      transactionConroller.customertransactionisnotdeleted
-                          .clear();
+                      transactionConroller.customertransactionisnotdeleted.clear();
                     } else {
                       transactionConroller.suppliertransaction.clear();
-                      transactionConroller.suppliertransactionisnotdeleted
-                          .clear();
+                      transactionConroller.suppliertransactionisnotdeleted.clear();
                     }
                     transactionConroller.sorty_order = "date_asc";
                     transactionConroller.getpages(tab);
@@ -428,12 +412,10 @@ class _TransactionsState extends State<Transactions>
                       transactionConroller.alltransactionisnotdeleted.clear();
                     } else if (tab == "1") {
                       transactionConroller.customertransaction.clear();
-                      transactionConroller.customertransactionisnotdeleted
-                          .clear();
+                      transactionConroller.customertransactionisnotdeleted.clear();
                     } else {
                       transactionConroller.suppliertransaction.clear();
-                      transactionConroller.suppliertransactionisnotdeleted
-                          .clear();
+                      transactionConroller.suppliertransactionisnotdeleted.clear();
                     }
                     transactionConroller.sorty_order = "high_to_low";
 
@@ -445,12 +427,10 @@ class _TransactionsState extends State<Transactions>
                       transactionConroller.alltransactionisnotdeleted.clear();
                     } else if (tab == "1") {
                       transactionConroller.customertransaction.clear();
-                      transactionConroller.customertransactionisnotdeleted
-                          .clear();
+                      transactionConroller.customertransactionisnotdeleted.clear();
                     } else {
                       transactionConroller.suppliertransaction.clear();
-                      transactionConroller.suppliertransactionisnotdeleted
-                          .clear();
+                      transactionConroller.suppliertransactionisnotdeleted.clear();
                     }
                     transactionConroller.sorty_order = "low_to_high";
 
@@ -515,7 +495,7 @@ class _TransactionsState extends State<Transactions>
                       Get.back();
                       transactionConroller.from_date = "";
                       transactionConroller.to_date = "";
-                      transactionConroller.allpage = 0;
+                      transactionConroller.allpage = 0 ;
                       transactionConroller.alltransaction.clear();
                       transactionConroller.getpages(tab);
                     },

@@ -7,6 +7,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../../api/const_apis.dart';
+
 GetTransactionDetail getTransactionDetailFromJson(String str) => GetTransactionDetail.fromJson(json.decode(str));
 
 String getTransactionDetailToJson(GetTransactionDetail data) => json.encode(data.toJson());
@@ -96,7 +98,7 @@ class Transactiondetai {
     required this.dateAdded,
   });
   getamount(){
-    return 'Rs ${amount} ${transactionType}';
+    return getformettedamount(text: '${amount} ${transactionType}');
   }
 gettypecolor(){
     return transactionType == "Due" ? Colors.red : Colors.green;

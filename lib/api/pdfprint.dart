@@ -5,6 +5,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import '../model/invoice.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:pdf/widgets.dart';
 import '../model/customer.dart';
@@ -13,51 +14,50 @@ import '../utils.dart';
 
 class PdfInvoice {
   static Future generate(Invoice2 invoice) async {
+    final font = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/noto-sans-regular.ttf'),
+    );
     DateTime date = DateTime.now();
     String dateformate = DateFormat('dd-MM-yyyy').format(date);
     final doc = pw.Document();
     doc.addPage(pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
-
-       header: (context) {
-         return   buildSupplierAddress(context,invoice.supplier);
-       },
+      maxPages: 1000,
       footer: (context) {
-        return     pw.Padding(
+        return pw.Padding(
             padding: pw.EdgeInsets.only(top: 10),
-            child: pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.end,
-                children: [
-                  pw.Text('Report generated with LezrApp',
-                      style: pw.TextStyle(fontSize: 8,color: PdfColors.black)),
-                ]));
+            child:
+                pw.Row(mainAxisAlignment: pw.MainAxisAlignment.end, children: [
+              pw.Text('Report generated with LezrApp',
+                  style: pw.TextStyle(fontSize: 8, color: PdfColors.black)),
+            ]));
       },
       build: (pw.Context context) => [
-         buildInvoice(context,invoice),
-  // pw.Stack(children: [
-  //
-  //   pw.Padding(
-  //     padding: pw.EdgeInsets.fromLTRB(400, 30, 0, 300),
-  //     child: pw.Text(dateformate,
-  //         style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-  //   ),
-  // ])
-  //       pw.Container(
-  //         padding: pw.EdgeInsets.all(15),
-  //         decoration: pw.BoxDecoration(
-  //             border: pw.Border.all(color: PdfColors.black, width: 2)),
-  //         child: pw.Column(
-  //           children: [
-  //
-  //             pw.ListView.builder(itemBuilder: (context, index) => pw.Container(child: pw.Text(index.toString()),), itemCount: 100),
-  //
-  //
-  //
-  //
-  //           ],
-  //         ),
-  //       ),
-
+        buildSupplierAddress(context, invoice.supplier),
+        buildInvoice(context, invoice,font),
+        // pw.Stack(children: [
+        //
+        //   pw.Padding(
+        //     padding: pw.EdgeInsets.fromLTRB(400, 30, 0, 300),
+        //     child: pw.Text(dateformate,
+        //         style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+        //   ),
+        // ])
+        //       pw.Container(
+        //         padding: pw.EdgeInsets.all(15),
+        //         decoration: pw.BoxDecoration(
+        //             border: pw.Border.all(color: PdfColors.black, width: 2)),
+        //         child: pw.Column(
+        //           children: [
+        //
+        //             pw.ListView.builder(itemBuilder: (context, index) => pw.Container(child: pw.Text(index.toString()),), itemCount: 100),
+        //
+        //
+        //
+        //
+        //           ],
+        //         ),
+        //       ),
       ],
     ));
 
@@ -65,14 +65,16 @@ class PdfInvoice {
         onLayout: (PdfPageFormat format) async => doc.save());
   }
 
-  static pw.Widget buildHeader(pw.Context context,Invoice2 invoice) => pw.Column(
+  static pw.Widget buildHeader(pw.Context context, Invoice2 invoice) =>
+      pw.Column(
         children: [
           // SizedBox(height: 10),
-
         ],
       );
 
-  static pw.Widget buildSupplierAddress(pw.Context context,Supplier2 supplier) => pw.Column(
+  static pw.Widget buildSupplierAddress(
+          pw.Context context, Supplier2 supplier) =>
+      pw.Column(
         children: [
           pw.Text(supplier.name,
               style:
@@ -90,15 +92,19 @@ class PdfInvoice {
           pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
-                pw.Text('Mobile: ${saveuser()?.mobileno}',style: pw.TextStyle(fontSize: 10)),
-                pw.Text(saveuser()?.company.companyWebsite,style: pw.TextStyle(fontSize: 10)),
-                pw.Text('Email:${saveuser()?.company.companyEmail}',style: pw.TextStyle(fontSize: 10)),
+                pw.Text('Mobile: ${saveuser()?.mobileno}',
+                    style: pw.TextStyle(fontSize: 10)),
+                pw.Text(saveuser()?.company.companyWebsite,
+                    style: pw.TextStyle(fontSize: 10)),
+                pw.Text('Email:${saveuser()?.company.companyEmail}',
+                    style: pw.TextStyle(fontSize: 10)),
               ]),
           pw.Divider(color: PdfColors.grey, thickness: 1, height: 5),
         ],
       );
 
-  static pw.Widget buildInvoice(pw.Context context,Invoice2 invoice) {
+  static pw.Widget buildInvoice(pw.Context context, Invoice2 invoice,font) {
+
     final headers = [
       'Sr No.',
       'Customer',
@@ -123,6 +129,7 @@ class PdfInvoice {
     return pw.Table.fromTextArray(
       cellStyle: pw.TextStyle(
         fontSize: 6,
+        font: font
       ),
       headers: headers,
       data: data,
@@ -136,6 +143,7 @@ class PdfInvoice {
       headerDecoration: pw.BoxDecoration(
         color: PdfColor.fromInt(0xff294472),
       ),
+
       cellHeight: 15,
       cellAlignments: {
         0: pw.Alignment.center,
@@ -147,7 +155,6 @@ class PdfInvoice {
       },
     );
   }
-
 
   static buildSimpleText({
     required String title,
@@ -190,4 +197,3 @@ class PdfInvoice {
     );
   }
 }
-

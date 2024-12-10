@@ -105,7 +105,7 @@ class _customer_creditState extends State<customer_credit> {
                         Row(
                           children: [
                             Text(
-                              'Rs. ${cre.amount} ${cre.transactionType}',
+                        getformettedamount(text: '${cre.amount} ${cre.transactionType}'),
                               style: TextStyle(
                                   fontFamily: 'SF Pro Display',
                                   color: Colors.red,

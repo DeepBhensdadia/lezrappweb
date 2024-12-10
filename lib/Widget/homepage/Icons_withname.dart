@@ -25,13 +25,13 @@ class _Icon_With_NameState extends State<Icon_With_Name> {
   Widget build(BuildContext context) {
     return MaterialButton(
       shape: CircleBorder(),
-      minWidth: screenwidth(context, dividedby: 7),
+      minWidth: screenwidth(context, dividedby: 7 ),
       onPressed: widget.onPressed,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Image(
-              width: screenwidth(context, dividedby: 10),
+              width: screenwidth(context, dividedby: 12),
               height: screenheight(context, dividedby: 30),
               image: AssetImage(widget.Stringimage)),
           SizedBox(
@@ -43,7 +43,7 @@ class _Icon_With_NameState extends State<Icon_With_Name> {
             style: TextStyle(
               fontFamily: 'SF Pro Display',
               fontWeight: FontWeight.w500,
-              fontSize: screenheight(context,dividedby: 60),
+              fontSize: screenheight(context,dividedby: 70),
               color: Colors.black,
             ),
           ),

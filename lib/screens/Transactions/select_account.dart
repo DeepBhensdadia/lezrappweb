@@ -98,7 +98,7 @@ class _select_accountState extends State<select_account>
                 ),
               ),
               Container(
-                height: screenheight(context, dividedby: 17.4),
+                height:50,
                 color: Color(0xff294472),
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
@@ -199,7 +199,8 @@ class _select_accountState extends State<select_account>
                       ],
                     );
                   },
-                )),       Container(
+                )),
+                Container(
                     child: ListView.builder(
                   itemCount: filteredSuppliers.length,
                   itemBuilder: (context, index) {
@@ -221,7 +222,6 @@ class _select_accountState extends State<select_account>
                     );
                   },
                 )),
-
               ],
             ),),
           ),

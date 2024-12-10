@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,7 +29,7 @@ import '../../login/loginas_screen.dart';
 import '../../model/invoice.dart';
 import '../../model/supplier.dart';
 import '../../scanner/appinfo_screens.dart';
-import '../../scanner/page1.dart';
+
 import '../../Dashboard/editbusiness_screen.dart';
 import 'change_language.dart';
 import '../../pdf/backuptransactionexpenses.dart';
@@ -472,8 +473,84 @@ class _setting_screenState extends State<setting_screen> {
                     setting: "Change Language".tr),
                 settings(
                     ontap: () {
-                      Get.to(
-                        set_Currency(),
+                      // Get.to(
+                      //   set_Currency(),
+                      // );
+                      showCurrencyPicker(
+                        context: context,
+                        showFlag: true,
+                        showSearchField: true,
+                        showCurrencyName: true,
+                        showCurrencyCode: true,
+                        currencyFilter: [
+                          'gyd',
+                          'inr',
+                          'usd',
+                          'ils',
+                          'kzt',
+                          'kgs',
+                          'myr',
+                          'mvr',
+                          'mur',
+                          'mnt',
+                          'mmk',
+                          'npr',
+                          'nzd',
+                          'ngn',
+                          'pgk',
+                          'php',
+                          'pln',
+                          'sar',
+                          'scr',
+                          'sgd',
+                          'krw',
+                          'zar',
+                          'lkr',
+                          'srd',
+                          'ttd',
+                          'try',
+                          'aed',
+                          'gbp',
+                          'vnd',
+                          'zmw',
+                          'afn',
+                          'aud',
+                          'bdt',
+                          'brl',
+                          'cad',
+                          'clp',
+                          'cny',
+                          'eur',
+                          'czk',
+                          'egp',
+                          'etb',
+                        ],
+                        onSelect: (Currency currency) async {
+                          print('Select currency: ${currency.symbol}');
+                          await setcurrency(currency: currency.symbol)
+                              .then((value) async {
+                            SLogin saveuser = sLoginFromJson(
+                                SharedPref.get(prefKey: PrefKey.saveuser)!);
+                            if (value.profile != null) {
+                              saveuser = saveuser.copyWith(
+                                  company: Company.fromJson(
+                                      (value.profile!.toJson())));
+
+                              SharedPref.save(
+                                  value: jsonEncode(saveuser.toJson()),
+                                  prefKey: PrefKey.saveuser);
+                            }
+                            print(saveuser.toString());
+                            Get.put(Summarycontroller()).get_summarydetails();
+                            // SLogin? valudata = saveuser();
+                            // valudata?.company.currency = value.profile?.currency;
+                            // SharedPref.save(
+                            //     value: jsonEncode(valudata?.toJson()),
+                            //     prefKey: PrefKey.saveuser);
+                          }).onError((error, stackTrace) {
+                            print("....$error");
+                          });
+                        },
                       );
                     },
                     yes: false,

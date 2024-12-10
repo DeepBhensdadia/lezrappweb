@@ -101,9 +101,9 @@ class _top_custimerState extends State<top_custimer> {
                                   type:
                                   details.customers[index].transactionType,
                                   amount:
-                                  " Rs ${details.customers[index].amount}",
+                                  getformettedamount(text: "${details.customers[index].amount}"),
                                 ),
-                              ).sublist(0,500),
+                              ).toList(),
                             );
                             await PdfInvoice.generate(invoice);
                           },
@@ -168,7 +168,7 @@ class _top_custimerState extends State<top_custimer> {
                             ],
                           ),
                           Text(
-                            'Rs. ${about.amount} ${about.transactionType}',
+              getformettedamount(text: '${about.amount} ${about.transactionType}'),
                             style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 color: about.transactionType == "Due"? Colors.red:Colors.green,

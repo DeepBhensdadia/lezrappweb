@@ -227,7 +227,7 @@ class _customer_flaggedState extends State<customer_flagged> {
                               CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  'Rs ${customer.totalAmount} ${customer.transactionType}',
+                            getformettedamount(text: '${customer.totalAmount} ${customer.transactionType}'),
                                   maxLines: 3,
                                   overflow: TextOverflow
                                       .ellipsis,
@@ -289,7 +289,7 @@ class _customer_flaggedState extends State<customer_flagged> {
                             CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'Rs ${customer.totalAmount} ${customer.transactionType}',
+                          getformettedamount(text: '${customer.totalAmount} ${customer.transactionType}'),
                                 style: TextStyle(
                                     fontFamily:
                                     'SF Pro Display',

@@ -14,6 +14,9 @@ import '../../../model/invoice.dart';
 import '../../../model/supplier.dart';
 import 'all_reports.dart';
 import 'customer_report.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class today_transactions extends StatefulWidget {
   const today_transactions({Key? key}) : super(key: key);
@@ -104,85 +107,100 @@ class _today_transactionsState extends State<today_transactions>
                                   name: saveuser()?.company.companyName,
                                   address: saveuser()?.company.companyAddress,
                                   type: "Customer Advances",
-                                  paymentInfo:
-                                  'https://paypal.me/sarahfieldzz',
+                                  paymentInfo: 'https://paypal.me/sarahfieldzz',
                                 ),
                                 items: List.generate(
                                   alldata.credit.transactions.length,
-                                      (index) => InvoiceItem2(
+                                  (index) => InvoiceItem2(
                                     srno_: "${index + 1}",
                                     Customername: alldata.credit
-                                        .transactions[index].customerName ?? "",
+                                            .transactions[index].customerName ??
+                                        "",
                                     mobileno: alldata.credit.transactions[index]
-                                        .customerMobileNo ?? "",
-                                    address: alldata
-                                        .credit.transactions[index].remark ?? "",
+                                            .customerMobileNo ??
+                                        "",
+                                    address: alldata.credit.transactions[index]
+                                            .remark ??
+                                        "",
                                     type: alldata.credit.transactions[index]
-                                        .transactionType ??"",
-                                    amount:
-                                    " Rs ${alldata.credit.transactions[index].amount}",
+                                            .transactionType ??
+                                        "",
+                                    amount: getformettedamount(
+                                        text:
+                                            "${alldata.credit.transactions[index].amount}"),
                                   ),
-                                ),
+                                ).toList(),
                               );
                               final pdfFile =
-                              await PdfInvoice.generate(invoice);
-                            } else  if (index == 1) {
+                                  await PdfInvoice.generate(invoice);
+                            } else if (index == 1) {
                               final invoice = Invoice2(
                                 supplier: Supplier2(
                                   name: saveuser()?.company.companyName,
                                   address: saveuser()?.company.companyAddress,
                                   type: "Customer Advances",
-                                  paymentInfo:
-                                  'https://paypal.me/sarahfieldzz',
+                                  paymentInfo: 'https://paypal.me/sarahfieldzz',
                                 ),
                                 items: List.generate(
                                   customer.credit.transactions.length,
-                                      (index) => InvoiceItem2(
+                                  (index) => InvoiceItem2(
                                     srno_: "${index + 1}",
                                     Customername: customer.credit
-                                        .transactions[index].customerName ?? "",
-                                    mobileno: customer.credit.transactions[index]
-                                        .customerMobileNo??"" ,
-                                    address: customer
-                                        .credit.transactions[index].remark ?? "",
+                                            .transactions[index].customerName ??
+                                        "",
+                                    mobileno: customer
+                                            .credit
+                                            .transactions[index]
+                                            .customerMobileNo ??
+                                        "",
+                                    address: customer.credit.transactions[index]
+                                            .remark ??
+                                        "",
                                     type: customer.credit.transactions[index]
-                                        .transactionType ??"",
-                                    amount:
-                                    " Rs ${customer.credit.transactions[index].amount}",
+                                            .transactionType ??
+                                        "",
+                                    amount: getformettedamount(
+                                        text:
+                                            "${customer.credit.transactions[index].amount}"),
                                   ),
-                                ),
+                                ).toList(),
                               );
                               final pdfFile =
-                              await PdfInvoice.generate(invoice);
-                            }
-                            else {
+                                  await PdfInvoice.generate(invoice);
+                            } else {
                               final invoice = Invoice2(
                                 supplier: Supplier2(
                                   name: saveuser()?.company.companyName,
                                   address: saveuser()?.company.companyAddress,
                                   type: "Customer Advances",
-                                  paymentInfo:
-                                  'https://paypal.me/sarahfieldzz',
+                                  paymentInfo: 'https://paypal.me/sarahfieldzz',
                                 ),
                                 items: List.generate(
                                   supplire.credit.transactions.length,
-                                      (index) => InvoiceItem2(
+                                  (index) => InvoiceItem2(
                                     srno_: "${index + 1}",
                                     Customername: supplire.credit
-                                        .transactions[index].customerName??"",
-                                    mobileno: supplire.credit.transactions[index]
-                                        .customerMobileNo??"",
-                                    address: supplire
-                                        .credit.transactions[index].remark??"",
+                                            .transactions[index].customerName ??
+                                        "",
+                                    mobileno: supplire
+                                            .credit
+                                            .transactions[index]
+                                            .customerMobileNo ??
+                                        "",
+                                    address: supplire.credit.transactions[index]
+                                            .remark ??
+                                        "",
                                     type: supplire.credit.transactions[index]
-                                        .transactionType??"",
-                                    amount:
-                                    " Rs ${supplire.credit.transactions[index].amount}",
+                                            .transactionType ??
+                                        "",
+                                    amount: getformettedamount(
+                                        text:
+                                            "${supplire.credit.transactions[index].amount}"),
                                   ),
-                                ),
+                                ).toList(),
                               );
                               final pdfFile =
-                              await PdfInvoice.generate(invoice);
+                                  await PdfInvoice.generate(invoice);
                             }
                           },
                           icon: const Icon(

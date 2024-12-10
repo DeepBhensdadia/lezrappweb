@@ -1,9 +1,6 @@
 import 'dart:io';
-// import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lezrapp/api/const_apis.dart';
-import 'package:lezrapp/api/pdf_api.dart';
-import 'package:lezrapp/helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -14,40 +11,32 @@ import '../model/customer.dart';
 import '../model/invoice.dart';
 import '../model/supplier.dart';
 import '../utils.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class PdfInvoiceApi {
   static Future<void> filesharegenerate(
       Invoice invoice, String netTotal) async {
+    final font = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/noto-sans-regular.ttf'),
+    );
     DateTime date = DateTime.now();
     String dateformat = DateFormat('dd-MM-yyyy').format(date);
     final doc = pw.Document();
-
     doc.addPage(
       pw.MultiPage(
+        maxPages: 1000,
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) => [
-          Container(
-            decoration: pw.BoxDecoration(
-              border: pw.Border.all(color: PdfColors.black, width: 2),
-            ),
-            child: Container(
-              margin: pw.EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  buildHeader(invoice, netTotal),
-                  buildInvoice(invoice),
-                  buildTotal(invoice, netTotal),
-                  Padding(
-                    padding: pw.EdgeInsets.only(top: 10),
-                    child: Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.end,
-                      children: [
-                        pw.Text('Report generated with LezrApp'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          buildHeader(invoice, netTotal,font),
+          buildInvoice(invoice, font),
+          buildTotal(invoice, netTotal, font),
+          Padding(
+            padding: pw.EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: pw.MainAxisAlignment.end,
+              children: [
+                pw.Text('Report generated with LezrApp'),
+              ],
             ),
           ),
         ],
@@ -67,38 +56,41 @@ class PdfInvoiceApi {
   static Future generate(Invoice invoice, String netTotal) async {
     DateTime date = DateTime.now();
     String dateformate = DateFormat('dd-MM-yyyy').format(date);
+    final font = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/noto-sans-regular.ttf'),
+    );
     final doc = pw.Document();
     doc.addPage(pw.MultiPage(
+      maxPages: 100,
       pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) => [
-        pw.Container(
-          decoration: pw.BoxDecoration(
-              border: pw.Border.all(color: PdfColors.black, width: 2)),
-          child: pw.Container(
-            margin: pw.EdgeInsets.all(10),
-            child: pw.Column(children: [
-              buildHeader(invoice, netTotal),
-              // buildTitle(invoice),
-              buildInvoice(invoice),
-              buildTotal(invoice, netTotal),
-              pw.Padding(
-                  padding: pw.EdgeInsets.only(top: 10),
-                  child: pw.Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        pw.Text('Report generated with LezrApp'),
-                      ]))
-            ]),
-          ),
-        ),
+        buildHeader(invoice, netTotal,font),
+        // buildTitle(invoice),
+        buildInvoice(invoice, font),
+        buildTotal(invoice, netTotal, font),
+        pw.Padding(
+            padding: pw.EdgeInsets.only(top: 10),
+            child: pw.Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              pw.Text('Report generated with LezrApp'),
+            ]))
       ],
+      // [
+      // pw.Container(
+      //   decoration: pw.BoxDecoration(
+      //       border: pw.Border.all(color: PdfColors.black, width: 2)),
+      //   child: pw.Container(
+      //     margin: pw.EdgeInsets.all(10),
+      //     child: pw.Column(children: []),
+      //   ),
+      // ),
+      // ],
     ));
 
     await Printing.layoutPdf(
         onLayout: (PdfPageFormat format) async => doc.save());
   }
 
-  static Widget buildHeader(Invoice invoice, String netTotal) => pw.Column(
+  static Widget buildHeader(Invoice invoice, String netTotal,font) => pw.Column(
         children: [
           pw.SizedBox(height: 20),
           buildSupplierAddress(invoice.supplier),
@@ -106,7 +98,7 @@ class PdfInvoiceApi {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildCustomerAddress(invoice.customer as C_calls),
-              buildInvoiceInfo(invoice, netTotal),
+              buildInvoiceInfo(invoice, netTotal,font),
             ],
           ),
         ],
@@ -116,9 +108,7 @@ class PdfInvoiceApi {
           child: pw.Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          pw.Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          pw.Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             pw.Text('Customer Name:',
                 style: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: 8)),
             pw.SizedBox(
@@ -128,7 +118,7 @@ class PdfInvoiceApi {
           ]),
           pw.Row(children: [
             pw.Text('Mobile:',
-                style: pw.TextStyle(fontWeight: FontWeight.bold,fontSize: 8)),
+                style: pw.TextStyle(fontWeight: FontWeight.bold, fontSize: 8)),
             pw.Text(customer.mobail, style: pw.TextStyle(fontSize: 8)),
           ]),
           pw.Row(children: [
@@ -137,12 +127,16 @@ class PdfInvoiceApi {
         ],
       ));
 
-  static Widget buildInvoiceInfo(Invoice invoice, String netTotal) {
+  static Widget buildInvoiceInfo(Invoice invoice, String netTotal,font) {
     final Totaldebit = invoice.items.map((item) {
-      return double.tryParse(item.debit.replaceAll("Rs.", "")) ?? 0;
+      return double.tryParse(
+              item.debit.replaceAll("${saveuser()?.company.currency}", "")) ??
+          0;
     }).reduce((item1, item2) => item1 + item2);
     final Totalcredit = invoice.items.map((item) {
-      return double.tryParse(item.credit.replaceAll("Rs.", "")) ?? 0;
+      return double.tryParse(
+              item.credit.replaceAll("${saveuser()?.company.currency}", "")) ??
+          0;
     }).reduce((item1, item2) => item1 + item2);
 
     final paymentTerms =
@@ -153,9 +147,9 @@ class PdfInvoiceApi {
       'Balance:',
     ];
     final data = <String>[
-      "Rs.$Totaldebit",
-      "Rs.$Totalcredit",
-      "Rs.$netTotal Due",
+      getformettedamount(text: "$Totaldebit"),
+      getformettedamount(text: "$Totalcredit"),
+      getformettedamount(text: "$netTotal Due"),
     ];
     return pw.Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,7 +159,7 @@ class PdfInvoiceApi {
           final title = titles[index];
           final value = data[index];
 
-          return buildText(title: title, value: value, width: 200);
+          return buildText(title: title, value: value, width: 200,font: font);
         },
       ),
     );
@@ -181,9 +175,12 @@ class PdfInvoiceApi {
               style: pw.TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
           pw.SizedBox(height: 40),
           pw.Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            pw.Text('Mobile: ${saveuser()?.company.companyMobileNo}',style: pw.TextStyle(fontSize: 8)),
-            pw.Text(saveuser()?.company.companyWebsite,style: pw.TextStyle(fontSize: 8)),
-            pw.Text('Email:${saveuser()?.company.companyEmail}',style: pw.TextStyle(fontSize: 8)),
+            pw.Text('Mobile: ${saveuser()?.company.companyMobileNo}',
+                style: pw.TextStyle(fontSize: 8)),
+            pw.Text(saveuser()?.company.companyWebsite,
+                style: pw.TextStyle(fontSize: 8)),
+            pw.Text('Email:${saveuser()?.company.companyEmail}',
+                style: pw.TextStyle(fontSize: 8)),
           ]),
           pw.Divider(color: PdfColors.grey, thickness: 1, height: 10),
         ],
@@ -202,7 +199,7 @@ class PdfInvoiceApi {
   //       ],
   //     );
 
-  static Widget buildInvoice(Invoice invoice) {
+  static Widget buildInvoice(Invoice invoice, font) {
     final headers = [
       'Sr No.',
       'Date',
@@ -217,9 +214,9 @@ class PdfInvoiceApi {
           item.srno_,
           Utils.formatDate(item.tra_date),
           item.particular,
-          item.credit,
-          item.debit,
-          "Rs.${item.totalblance}",
+          getformettedamount(text: "${item.credit}"),
+          getformettedamount(text: "${item.debit}"),
+          getformettedamount(text: "${item.totalblance}"),
         ];
       },
     ).toList();
@@ -230,6 +227,7 @@ class PdfInvoiceApi {
       border: pw.TableBorder.all(color: PdfColors.black),
       cellAlignment: Alignment.center,
       headerStyle: pw.TextStyle(
+        font: font,
         fontSize: 8,
         color: PdfColors.white,
         fontWeight: FontWeight.bold,
@@ -238,7 +236,10 @@ class PdfInvoiceApi {
         color: PdfColor.fromInt(0xff294472),
       ),
       cellHeight: 15,
-      cellStyle: pw.TextStyle(fontSize: 8),
+      cellStyle: pw.TextStyle(
+        fontSize: 8,
+        font: font,
+      ),
       cellAlignments: {
         0: Alignment.center,
         1: Alignment.center,
@@ -250,7 +251,7 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget buildTotal(Invoice invoice, netTotal) {
+  static Widget buildTotal(Invoice invoice, netTotal, font) {
     return pw.Column(children: [
       pw.Container(
         height: 1.5 * PdfPageFormat.cm,
@@ -272,8 +273,11 @@ class PdfInvoiceApi {
             pw.Container(
               width: 129.5,
               child: pw.Center(
-                child: pw.Text("Rs:${netTotal} Due ",
-                    style: pw.TextStyle(fontSize: 10),
+                child: pw.Text(getformettedamount(text: "${netTotal} Due "),
+                    style: pw.TextStyle(
+                      fontSize: 10,
+                      font: font,
+                    ),
                     textAlign: TextAlign.center),
               ),
               decoration: pw.BoxDecoration(
@@ -333,16 +337,18 @@ class PdfInvoiceApi {
     required String value,
     double width = double.infinity,
     TextStyle? titleStyle,
+    font,
     bool unite = false,
   }) {
-    final style = titleStyle ?? pw.TextStyle(fontWeight: FontWeight.bold,fontSize: 8);
+    final style =
+        titleStyle ?? pw.TextStyle(fontWeight: FontWeight.bold, fontSize: 8);
 
     return pw.Container(
       width: width,
       child: pw.Row(
         children: [
           pw.Expanded(child: pw.Text(title, style: style)),
-          pw.Text(value, style: unite ? style : pw.TextStyle(fontSize: 8) ),
+          pw.Text(value, style: unite ? style : pw.TextStyle(fontSize: 8,font: font)),
         ],
       ),
     );

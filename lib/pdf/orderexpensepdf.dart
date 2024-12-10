@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lezrapp/api/const_apis.dart';
 import 'package:pdf/pdf.dart';
@@ -13,14 +14,15 @@ import '../utils.dart';
 
 class orderexpensepdfprint {
   static Future ordergenerat(orderexpenseInvoice invoice) async {
+    final font = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/noto-sans-regular.ttf'),
+    );
     DateTime date = DateTime.now();
     String dateformate = DateFormat('dd-MM-yyyy').format(date);
     final doc = pw.Document();
     doc.addPage(pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
-      header: (context) {
-        return  buildSupplierAddress(invoice.supplier);
-      },
+      maxPages: 1000,
       footer: (context) {
         return pw.Padding(
             padding: pw.EdgeInsets.only(top: 10),
@@ -50,8 +52,9 @@ class orderexpensepdfprint {
         //         style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
         //   ),
         // ]),
-        buildInvoice(invoice),
-        buildTotal(invoice),
+        buildSupplierAddress(invoice.supplier),
+        buildInvoice(invoice,font),
+        buildTotal(invoice,font),
       ],
     ));
 
@@ -92,7 +95,7 @@ class orderexpensepdfprint {
     ],
   );
 
-  static pw.Widget buildInvoice(orderexpenseInvoice invoice) {
+  static pw.Widget buildInvoice(orderexpenseInvoice invoice,font) {
     final headers = [
       'Sr No.',
       'Date',
@@ -109,7 +112,7 @@ class orderexpensepdfprint {
           item.type,
           item.User,
           item.remark,
-          item.amount,
+          getformettedamount(text: '${item.amount}'),
         ];
       },
     ).toList();
@@ -117,6 +120,7 @@ class orderexpensepdfprint {
     return pw.Table.fromTextArray(
       cellStyle: pw.TextStyle(
         fontSize: 6,
+        font: font
       ),
       headers: headers,
       data: data,
@@ -142,7 +146,7 @@ class orderexpensepdfprint {
     );
   }
 
-  static pw.Widget buildTotal(orderexpenseInvoice invoice) {
+  static pw.Widget buildTotal(orderexpenseInvoice invoice,font) {
     final netTotal = invoice.items
         .map((item) {
 
@@ -170,7 +174,7 @@ class orderexpensepdfprint {
             padding: pw.EdgeInsets.symmetric(horizontal: 10),
             child: pw.Center(
               child: pw.Text(
-                " Total : Rs ${netTotal.toStringAsFixed(2)}",style: pw.TextStyle(fontSize: 8), // Format netTotal as desired
+                " Total : ${getformettedamount(text: '${netTotal.toStringAsFixed(2)}')}",style: pw.TextStyle(fontSize: 8,font: font), // Format netTotal as desired
                 textAlign: TextAlign.center,
               ),
             ),

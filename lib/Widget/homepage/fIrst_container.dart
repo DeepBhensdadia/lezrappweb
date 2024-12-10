@@ -32,7 +32,7 @@ class First_Container extends StatelessWidget {
               color: Color(0xff294472),
             borderRadius: BorderRadius.circular(5)
           ),
-          width: screenwidth(context, dividedby: 1.7),
+          width: screenwidth(context, dividedby: 1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

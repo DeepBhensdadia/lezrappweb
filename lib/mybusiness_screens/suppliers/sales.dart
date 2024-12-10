@@ -5,6 +5,7 @@ import 'package:lezrapp/api_model/salseandpurchasemodel.dart';
 import 'package:lezrapp/helper.dart';
 
 import '../../Const.dart';
+import '../../api/const_apis.dart';
 import '../../getx controller/summarycontroller.dart';
 
 class salse extends StatefulWidget {
@@ -110,7 +111,7 @@ class _salseState extends State<salse> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Rs ${widget.salsepuchase.summery[index].sales.toStringAsFixed(0)}',
+                            getformettedamount(text: '${widget.salsepuchase.summery[index].sales.toStringAsFixed(0)}'),
                                       style: TextStyle(
                                           fontFamily: 'SF Pro Display',
                                           fontSize: 15,
@@ -125,7 +126,7 @@ class _salseState extends State<salse> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Rs ${widget.salsepuchase.summery[index].salesPayment.toStringAsFixed(0)}',
+                                      getformettedamount(text: '${widget.salsepuchase.summery[index].salesPayment.toStringAsFixed(0)}'),
                                       style: TextStyle(
                                           fontFamily: 'SF Pro Display',
                                           fontSize: 15,
@@ -140,7 +141,7 @@ class _salseState extends State<salse> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Rs ${widget.salsepuchase.summery[index].receivable.toStringAsFixed(0)}',
+                                      getformettedamount(text: '${widget.salsepuchase.summery[index].receivable.toStringAsFixed(0)}'),
                                       style: TextStyle(
                                           fontFamily: 'SF Pro Display',
                                           fontSize: 15,

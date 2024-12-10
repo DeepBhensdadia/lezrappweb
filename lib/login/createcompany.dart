@@ -54,13 +54,13 @@ class _CreateCompanyState extends State<CreateCompany> {
         Get.snackbar("Wrong!!", value.message, backgroundColor: Colors.white);
         Fluttertoast.showToast(msg: value.message.toString());
         context.loaderOverlay.hide();
-
       } else {
         saveuserapi(
-            // devicetocken: kweb() ? "":(await messaging.getToken()).toString(),
+                // devicetocken: kweb() ? "":(await messaging.getToken()).toString(),
                 mobileno: widget.mobileno)
             .then((value) async {
-          Get.snackbar("Success!", value.message, backgroundColor: Colors.white);
+          Get.snackbar("Success!", value.message,
+              backgroundColor: Colors.white);
           await SharedPref.save(
               value: jsonEncode(value.toJson()), prefKey: PrefKey.saveuser);
           MainScreengo();

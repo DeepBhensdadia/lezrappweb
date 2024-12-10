@@ -99,9 +99,9 @@ class _top_supplierState extends State<top_supplier> {
                                 type:
                                 details.customers[index].transactionType,
                                 amount:
-                                " Rs ${details.customers[index].amount}",
+                                getformettedamount(text: "${details.customers[index].amount}"),
                               ),
-                            ).sublist(0,details.customers.length > 500 ? 500 :details.customers.length),
+                            ).toList(),
                           );
                           final pdfFile = await PdfInvoice.generate(invoice);},
                           icon: const Icon(
@@ -165,7 +165,7 @@ class _top_supplierState extends State<top_supplier> {
                             ],
                           ),
                           Text(
-                            'Rs. ${about.amount} ${about.transactionType}',
+              getformettedamount(text: '${about.amount} ${about.transactionType}'),
                             style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 color:about.transactionType == "Due"? Colors.red:Colors.green,

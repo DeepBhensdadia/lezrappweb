@@ -459,7 +459,7 @@ class _customer_screenState extends State<customer_screen> {
                                                         CrossAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        'Rs ${about.totalAmount} ${about.transactionType}',
+                                                  getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                                                         maxLines: 3,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -530,7 +530,7 @@ class _customer_screenState extends State<customer_screen> {
                                                       CrossAxisAlignment.end,
                                                   children: [
                                                     Text(
-                                                      'Rs ${about.totalAmount} ${about.transactionType}',
+                                          getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'SF Pro Display',

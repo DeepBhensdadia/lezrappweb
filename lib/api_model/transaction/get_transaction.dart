@@ -9,6 +9,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lezrapp/Const.dart';
 
+import '../../api/const_apis.dart';
+
 Getalltransaction getalltransactionFromJson(String str) => Getalltransaction.fromJson(json.decode(str));
 
 String getalltransactionToJson(Getalltransaction data) => json.encode(data.toJson());
@@ -79,7 +81,7 @@ class Transaction {
     return userName.isNotEmpty? userName :"Admin";
   }
   getAmount(){
-    return "₹ ${amount} ${transactionType}" ;
+    return getformettedamount(text: "${amount} ${transactionType}" );
   }
 
   getAmountColor(){

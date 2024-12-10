@@ -28,19 +28,24 @@ class Summarycontroller extends GetxController {
       print(error);
     });
   }
+
   late Smschangesetting smschange;
 
-  get_changesetting(String remideron,String issetpin,String smson,String isprivercy,) async {
+  get_changesetting(
+    String remideron,
+    String issetpin,
+    String smson,
+    String isprivercy,
+  ) async {
     Get.context!.loaderOverlay.show();
     Map<String, dynamic> parameter = {
-      '':saveuser()!.company.auth,
+      '': saveuser()!.company.auth,
       'company_id': saveuser()!.company.companyId,
       'user_id': saveuser()!.company.userId,
       'reminder_on': remideron,
       'sms_on': smson,
       'is_setpin': issetpin,
       'is_privacy': isprivercy
-
     };
     await smschangesetting(parameter: parameter).then((value) async {
       smschange = value;
@@ -60,6 +65,7 @@ class Summarycontroller extends GetxController {
       print(error);
     });
   }
+
   bool summaryshow = false;
   late GetSummary summary;
   late Getmycurrentpackage currantpackag;
@@ -68,8 +74,9 @@ class Summarycontroller extends GetxController {
       summary = value;
       await get_currantpackages().then((value) {
         currantpackag = value;
-        summaryshow = true ;
+        summaryshow = true;
         Get.offAll(() => MainScreen());
+        Get.context!.loaderOverlay.hide();
       }).onError((error, stackTrace) {
         print(error);
       });
@@ -96,6 +103,7 @@ class Summarycontroller extends GetxController {
       print("bhai $error");
     });
   }
+
   get_salseandpurchasegohome(year) async {
     Get.context?.loaderOverlay.show();
     change.value = true;
@@ -113,10 +121,11 @@ class Summarycontroller extends GetxController {
     });
   }
 
-  sendwatsappremider(setremider,customerid,phonenumber){
+  sendwatsappremider(setremider, customerid, phonenumber) {
     Get.context!.loaderOverlay.show();
-    sendwahatsapp(setremider,customerid).then((value) {
-      shareOnWhatsApp(value.message.toString() + value.shareLink.toString(),phonenumber);
+    sendwahatsapp(setremider, customerid).then((value) {
+      shareOnWhatsApp(
+          value.message.toString() + value.shareLink.toString(), phonenumber);
       Get.context!.loaderOverlay.hide();
     }).onError((error, stackTrace) {
       print("error..$error");
@@ -124,13 +133,13 @@ class Summarycontroller extends GetxController {
   }
 }
 
-
- void shareOnWhatsApp(String message,String phoneNumber) async {
-   String encodedMessage = Uri.encodeComponent(message);
-   String whatsappUrl = "whatsapp://send?text=$encodedMessage${phoneNumber.isNotEmpty ? "&phone=+91$phoneNumber":""}" ;
-   if (await canLaunch(whatsappUrl)) {
-     await launch(whatsappUrl);
-   } else {
-     print('WhatsApp is not installed.');
-   }
- }
+void shareOnWhatsApp(String message, String phoneNumber) async {
+  String encodedMessage = Uri.encodeComponent(message);
+  String whatsappUrl =
+      "whatsapp://send?text=$encodedMessage${phoneNumber.isNotEmpty ? "&phone=+91$phoneNumber" : ""}";
+  if (await canLaunch(whatsappUrl)) {
+    await launch(whatsappUrl);
+  } else {
+    print('WhatsApp is not installed.');
+  }
+}

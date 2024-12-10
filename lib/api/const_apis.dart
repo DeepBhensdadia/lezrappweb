@@ -1,5 +1,4 @@
 import 'dart:convert';
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -48,6 +47,7 @@ import '../api_model/type_model.dart';
 import '../api_model/updatestaffmodel.dart';
 import '../api_model/uploadimagemodel.dart';
 import '../api_model/whatsappremidersend.dart';
+import '../model/changecurrencyresponse.dart';
 import '../mybusiness_screens/analytics/chartmodel/newcustomermodel.dart';
 import '../mybusiness_screens/analytics/chartmodel/purchase_paymentofsupplierModel.dart';
 import '../mybusiness_screens/analytics/chartmodel/sales_payment_customer.dart';
@@ -63,6 +63,10 @@ final headers = {
   'Content-Type': 'application/x-www-form-urlencoded',
   // 'Cookie': 'ci_session=8s2snk8594fdlgn7dpnvlahs1lnv7m9t'
 };
+
+String getformettedamount({required String text}) {
+  return "${text != "" ? saveuser()?.company.currency : ""} $text";
+}
 
 SLogin? saveuser() {
   SLogin? saveuser = SharedPref.get(prefKey: PrefKey.saveuser) != null
@@ -82,7 +86,7 @@ bool kweb() {
 
 Future<GetSummary> get_summary() async {
   var url = Uri.parse(
-      '$courl/getSummary?auth=${saveuser()?.company.auth}&company_id=${saveuser()?.company.companyId}&user_id=${saveuser()?.company.userId}');
+      '$courl/getSummary?auth=${saveuser()?.company.auth}&company_id=${saveuser()?.company.companyId}&user_id=${saveuser()?.company.userId}&device_token=');
   var response = await http.get(url);
   print('Response body: ${response.body}');
   return getSummaryFromJson(response.body);
@@ -90,7 +94,7 @@ Future<GetSummary> get_summary() async {
 
 Future<Getallcompanystaff> get_all_userapi() async {
   var url = Uri.parse(
-      '$mainurl/usertransaction/get_all_users?auth=${saveuser()?.company.auth}&company_id=${saveuser()?.company.companyId}&user_id=${saveuser()?.company.userId}');
+      '$mainurl/usertransaction/get_all_users?auth=${saveuser()?.company.auth}&company_id=${saveuser()?.company.companyId}&user_id=${saveuser()?.company.userId}&device_token=');
   var response = await http.get(url);
   print('Response body: ${response.body}');
   return getallcompanystaffFromJson(response.body);
@@ -428,6 +432,23 @@ Future<SLogin> stafflogin({
   });
 }
 
+Future<ChangecurrencyResponse> setcurrency({
+  required String currency,
+}) {
+  Map<String, dynamic> parameter = {
+    'company_id': saveuser()?.company.companyId.toString(),
+    'user_id': saveuser()?.company.userId.toString(),
+    'currency': currency,
+  };
+  String url = '$courl/update_currency?auth=${saveuser()?.company.auth}';
+  return http
+      .post(Uri.parse(url), body: parameter, headers: headers)
+      .then((http.Response response) {
+    debugPrint(json.encode(response.body));
+    return changecurrencyResponseFromJson(response.body);
+  });
+}
+
 Future<Companyloginsendingotp> CompanyLoginsendotp({required String mobileno}) {
   Map<String, dynamic> parameter = {
     'mobileno': mobileno,
@@ -481,10 +502,11 @@ Future<Vrotp> verifyotp({required String mobileno, required String otp}) {
   });
 }
 
-Future<Saveusermodel> saveuserapi({required String mobileno}) {
+Future<Saveusermodel> saveuserapi(
+    {required String mobileno}) {
   Map<String, dynamic> parameter = {
     'mobileno': mobileno,
-    // "device_token": devicetocken
+    "device_token": ""
   };
   String url = '$courl/save_user';
   return http

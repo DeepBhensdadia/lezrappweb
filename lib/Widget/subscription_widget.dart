@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -93,7 +92,7 @@ class _subscription_widget1State extends State<subscription_widget1> {
                                   ),
                                 ),
                                 Text(
-                                  "₹${widget.about.monthlyOfferPrice}",
+                                  getformettedamount(text: "${widget.about.monthlyOfferPrice}"),
                                   style: TextStyle(
                                       fontFamily: 'SF Pro Display',
                                       color: Color(0xff294472),
@@ -148,7 +147,7 @@ class _subscription_widget1State extends State<subscription_widget1> {
                                   ),
                                 ),
                                 Text(
-                                  "₹${widget.about.yearlyOfferPrice}",
+                                  getformettedamount(text: "${widget.about.yearlyOfferPrice}"),
                                   style: TextStyle(
                                       fontFamily: 'SF Pro Display',
                                       color: Color(0xff294472),
@@ -197,8 +196,8 @@ class _subscription_widget1State extends State<subscription_widget1> {
                   // if(value.status == 1)
                   {
                     var options = {
-                      // 'key': 'rzp_live_dY9Bqdnartqeb7', //original
-                      'key': 'rzp_test_lUis0piS4tOia5',
+                      'key': 'rzp_live_dY9Bqdnartqeb7', //original
+                      // 'key': 'rzp_test_lUis0piS4tOia5',
                       'amount': cur == 1
                           ? num.parse(widget.about.monthlyOfferPrice) * 100
                           : num.parse(widget.about.yearlyOfferPrice) * 100,
@@ -274,9 +273,7 @@ class _subscription_widget1State extends State<subscription_widget1> {
           : widget.about.yearlyOfferPrice
     };
     await postbuypackage(parameter: parameter).then((value) async {
-      // FirebaseMessaging messaging = FirebaseMessaging.instance;
       saveuserapi(
-         // devicetocken: kweb() ? "":  (await messaging.getToken()).toString(),
               mobileno: saveuser()!.mobileno)
           .then((value) async {
         Get.delete();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lezrapp/api/const_apis.dart';
 import 'package:pdf/pdf.dart';
@@ -12,15 +13,20 @@ import '../model/supplier.dart';
 import '../utils.dart';
 
 class backuptransactionpdfprint {
+
   static Future backuptransactiongenerat(transactionInvoice invoice,orderexpenseInvoice orderinvoice) async {
+    final font = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/noto-sans-regular.ttf'),
+    );
     DateTime date = DateTime.now();
     String dateformate = DateFormat('dd-MM-yyyy').format(date);
     final doc = pw.Document();
     doc.addPage(pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
+      maxPages: 1000,
       build: (pw.Context context) => [
         buildSupplierAddress(invoice.supplier),
-        buildInvoice(invoice),
+        buildInvoice(invoice,font),
         pw.SizedBox(height: 5 * PdfPageFormat.mm),
         pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -32,7 +38,7 @@ class backuptransactionpdfprint {
           ]
         ),
         pw.SizedBox(height: 5 * PdfPageFormat.mm),
-        buildInvoiceexpenses(orderinvoice),
+        buildInvoiceexpenses(orderinvoice,font),
 
       ],
     ),);
@@ -84,7 +90,7 @@ class backuptransactionpdfprint {
     ],
   );
 
-  static pw.Widget buildInvoice(transactionInvoice invoice) {
+  static pw.Widget buildInvoice(transactionInvoice invoice,font) {
     final headers = [
       'Sr No.',
       'Date',
@@ -103,9 +109,9 @@ class backuptransactionpdfprint {
           item.customer,
           item.remark,
           item.User,
-          item.credit,
-          item.debit,
-          item.blance,
+            getformettedamount(text:item.credit),
+            getformettedamount(text:item.debit),
+          getformettedamount(text:item.blance),
         ];
       },
     ).toList();
@@ -118,7 +124,7 @@ class backuptransactionpdfprint {
       data: data,
       border: pw.TableBorder.all(color: PdfColors.black, width: 0.5),
       cellAlignment: pw.Alignment.center,
-      headerStyle: pw.TextStyle(
+      headerStyle: pw.TextStyle(font: font,
         fontSize: 8,
         color: PdfColors.white,
         fontWeight: FontWeight.bold,
@@ -138,7 +144,7 @@ class backuptransactionpdfprint {
       },
     );
   }
-  static pw.Widget buildInvoiceexpenses(orderexpenseInvoice invoice) {
+  static pw.Widget buildInvoiceexpenses(orderexpenseInvoice invoice,font) {
     final headers = [
       'Sr No.',
       'Date',
@@ -155,7 +161,7 @@ class backuptransactionpdfprint {
           item.type,
           item.User,
           item.remark,
-          item.amount,
+          getformettedamount(text:item.amount),
         ];
       },
     ).toList();
@@ -163,6 +169,7 @@ class backuptransactionpdfprint {
     return pw.Table.fromTextArray(
       cellStyle: pw.TextStyle(
         fontSize: 6,
+        font: font,
       ),
       headers: headers,
       data: data,

@@ -119,9 +119,9 @@ class _credit_screenState extends State<credit_screen>
                                       type: total.credit.transactions[index]
                                           .transactionType,
                                       amount:
-                                          " Rs ${total.credit.transactions[index].amount}",
+                                      getformettedamount(text: "${total.credit.transactions[index].amount}"),
                                     ),
-                                  ).sublist(0,total.credit.transactions.length > 500 ? 500 :total.credit.transactions.length),
+                                  ).toList(),
                                 );
                                 final pdfFile =
                                     await PdfInvoice.generate(invoice);
@@ -147,9 +147,9 @@ class _credit_screenState extends State<credit_screen>
                                       type: customer.credit.transactions[index]
                                           .transactionType,
                                       amount:
-                                          " Rs ${customer.credit.transactions[index].amount}",
+                                      getformettedamount(text: "${customer.credit.transactions[index].amount}"),
                                     ),
-                                  ).sublist(0,customer.credit.transactions.length > 500 ? 500 :customer.credit.transactions.length),
+                                  ).toList(),
                                 );
                                 final pdfFile =
                                     await PdfInvoice.generate(invoice);
@@ -176,9 +176,9 @@ class _credit_screenState extends State<credit_screen>
                                       type: supplire.credit.transactions[index]
                                           .transactionType,
                                       amount:
-                                          " Rs ${supplire.credit.transactions[index].amount}",
+                                      getformettedamount(text: "${supplire.credit.transactions[index].amount}"),
                                     ),
-                                  ).sublist(0,supplire.credit.transactions.length > 500 ? 500 :supplire.credit.transactions.length),
+                                  ).toList(),
                                 );
                                 final pdfFile =
                                     await PdfInvoice.generate(invoice);

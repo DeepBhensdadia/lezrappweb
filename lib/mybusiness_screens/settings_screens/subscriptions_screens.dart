@@ -25,10 +25,11 @@ class _subscriptions_screensState extends State<subscriptions_screens> {
 
   @override
   void initState() {
-    sub.subscription();
+  sub.subscription();
     // TODO: implement initState
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,98 +89,81 @@ class _subscriptions_screensState extends State<subscriptions_screens> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              Obx(
-                () => sub.currentpackage.isTrue
-                    ? Container(
-                        width: screenwidth(context, dividedby: 1),
-                        // height: 70,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 5,
-                              spreadRadius: 0.3,
-                              offset: Offset(1, 1),
-                            ),
-                          ],
-                          color: Color(0xffF1BC5C),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Current Plan',
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Display',
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xff294472),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                sub.currantpackag.data.packageName,
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Display',
-                                  color: Color(0xff294472),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "₹ ${sub.currantpackag.data.packgePrice}",
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Display',
-                                  color: Color(0xff294472),
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                sub.currantpackag.data.remainingDays != 0
-                                    ? "(${sub.currantpackag.data.remainingDays} Days Remaining)"
-                                    : " Plan Expire ",
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: custom,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              CupertinoButton(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                minSize: 30,
-                                color: custom,
-                                onPressed: () {
-                                  Get.to(subscriptions_screens());
-                                },
-                                child: Text(
-                                  "Buy Now",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : SizedBox(),
+            Obx(() =>  sub.currentpackage.isTrue ? Container(
+              width: screenwidth(context, dividedby: 1),
+              // height: 70,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5,
+                    spreadRadius: 0.3,
+                    offset: Offset(1, 1),
+                  ),
+                ],
+                color: Color(0xffF1BC5C),
+                borderRadius: BorderRadius.circular(10),
               ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Current Plan',
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff294472),
+                      ),
+                    ),
+                    SizedBox(height: 5,),
+                    Text(
+                      sub.currantpackag.data.packageName,
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        color: Color(0xff294472),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),                  SizedBox(height: 5,),
+
+                    Text(
+                      getformettedamount(text: "${sub.currantpackag.data.packgePrice}"),
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        color: Color(0xff294472),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),                  SizedBox(height: 5,),
+
+                    Text(
+                      sub.currantpackag.data.remainingDays !=0 ?"(${sub.currantpackag.data.remainingDays} Days Remaining)":" Plan Expire ",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: custom,
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    CupertinoButton(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      minSize: 30,
+                      color: custom,
+                      onPressed: () {
+                        Get.to(subscriptions_screens());
+                      },
+                      child: Text(
+                        "Buy Now",
+                        style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ) : SizedBox(),),
               SizedBox(
                 height: 15,
               ),
@@ -187,318 +171,324 @@ class _subscriptions_screensState extends State<subscriptions_screens> {
                 color: Colors.grey,
                 thickness: 1,
               ),
-              Obx(
-                () => sub.subscribdata.isTrue
-                    ? ListView.builder(
-                        itemCount: sub.subscri.data.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          Datum about = sub.subscri.data[index];
-                          return (about.packageId == "5")
-                              ? Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 10,
-                                          spreadRadius: 0.3,
-                                          offset: Offset(1, 1),
-                                        ),
-                                      ],
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
+            Obx(() =>  sub.subscribdata.isTrue ? ListView.builder(
+              itemCount: sub.subscri.data.length,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                Datum about = sub.subscri.data[index];
+                return (about.packageId == "5")
+                    ? Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 10,
+                              spreadRadius: 0.3,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                          borderRadius:
+                          BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        // height:
+                        //     screenheight(context, dividedby: 5),
+                        child: Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                about.packageName,
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro Display',
+                                  color: Color(0xff294472),
+                                  fontSize: 27,
+                                ),
+                              ),
+                              Text(
+                                '• ${about.minUser} Users',
+                                style: TextStyle(
+                                    fontFamily: 'SF Pro Display',
+                                    color: Color(0xff294472),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                '• ${about.minBusiness} Users',
+                                style: TextStyle(
+                                    fontFamily: 'SF Pro Display',
+                                    color: Color(0xff294472),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              (about.allowWebversion == "1")
+                                  ? Text(
+                                '• Web Version',
+                                style: TextStyle(
+                                  fontFamily:
+                                  'SF Pro Display',
+                                  fontSize: 15,
+                                  fontWeight:
+                                  FontWeight.w500,
+                                  color: Color(0xff294472),
+                                ),
+                              )
+                                  : Text(
+                                '• No Web Version',
+                                style: TextStyle(
+                                  fontFamily:
+                                  'SF Pro Display',
+                                  fontSize: 15,
+                                  fontWeight:
+                                  FontWeight.w500,
+                                  color: Color(0xff294472),
+                                ),
+                              ),
+                              // (about.allowBusinessGame == "1")
+                              //     ? Text(
+                              //   '• Play the Business Game',
+                              //   style: TextStyle(
+                              //     fontFamily:
+                              //     'SF Pro Display',
+                              //     fontSize: 15,
+                              //     fontWeight:
+                              //     FontWeight.w500,
+                              //     color: Color(0xff294472),
+                              //   ),
+                              // )
+                              //     : Text(
+                              //   '• Not allow Business Game',
+                              //   style: TextStyle(
+                              //     fontFamily:
+                              //     'SF Pro Display',
+                              //     fontSize: 15,
+                              //     fontWeight:
+                              //     FontWeight.w500,
+                              //     color: Color(0xff294472),
+                              //   ),
+                              // )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                    : InkWell(
+                  onTap: () {
+                    showDialog(
+
+                      context: context,
+                      builder: (context) {
+                        return subscription_widget1(about :about);
+                      },
+                    );
+                  },
+                  child: subscription_widget(
+                    child1: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 30,
+                            child: Text(
+                              getformettedamount(text: '${about.monthlyPrice}/month'),
+                              style: TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                decorationThickness: 2,
+                                fontFamily:
+                                'SF Pro Display',
+                                fontSize: 15,
+                                fontWeight:
+                                FontWeight.bold,
+                                color: Color(0xff294472),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            getformettedamount(text: '${about.monthlyOfferPrice}'),
+                            style: TextStyle(
+                                fontFamily:
+                                'SF Pro Display',
+                                color: custom,
+                                fontSize: 30,
+                                fontWeight:
+                                FontWeight.bold),
+                          ),
+                          Text(
+                            'month',
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff294472),
+                            ),
+                          ),
+                          Text(
+                            'or',
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              color: Color(0xff294472),
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Text(
+                            getformettedamount(text: '${about.yearlyOfferPrice}/Year'),
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff294472),
+                            ),
+                          ),
+                          Container(
+                            height: 30,
+                            child: Text(
+                              getformettedamount(text: '${about.yearlyPrice}/Year'),
+                              textAlign:
+                              TextAlign.center,
+                              style: TextStyle(
+                                decorationThickness: 2,
+                                decoration: TextDecoration.lineThrough,
+                                fontFamily:
+                                'SF Pro Display',
+                                fontSize: 13.5,
+                                fontWeight:
+                                FontWeight.bold,
+                                color:
+                                Color(0xff294472),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    child2: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            // width: screenwidth(context,dividedby: 2),
+                            child: Text(
+                              about.packageName,
+                              style: TextStyle(
+                                fontFamily:
+                                'SF Pro Display',
+                                fontWeight: FontWeight.w600,
+                                color:
+                                custom,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20,top: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '• ${about.minUser} Users',
+                                      style: TextStyle(
+                                          fontFamily:
+                                          'SF Pro Display',
+                                          color: Color(
+                                              0xff294472),
+                                          fontSize: 15,
+                                          fontWeight:
+                                          FontWeight
+                                              .w500),
                                     ),
-                                    // height:
-                                    //     screenheight(context, dividedby: 5),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(25.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            about.packageName,
-                                            style: TextStyle(
-                                              fontFamily: 'SF Pro Display',
-                                              color: Color(0xff294472),
-                                              fontSize: 27,
-                                            ),
-                                          ),
-                                          Text(
-                                            '• ${about.minUser} Users',
-                                            style: TextStyle(
-                                                fontFamily: 'SF Pro Display',
-                                                color: Color(0xff294472),
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          Text(
-                                            '• ${about.minBusiness} Users',
-                                            style: TextStyle(
-                                                fontFamily: 'SF Pro Display',
-                                                color: Color(0xff294472),
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          (about.allowWebversion == "1")
-                                              ? Text(
-                                                  '• Web Version',
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        'SF Pro Display',
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color(0xff294472),
-                                                  ),
-                                                )
-                                              : Text(
-                                                  '• No Web Version',
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        'SF Pro Display',
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color(0xff294472),
-                                                  ),
-                                                ),
-                                          // (about.allowBusinessGame == "1")
-                                          //     ? Text(
-                                          //   '• Play the Business Game',
-                                          //   style: TextStyle(
-                                          //     fontFamily:
-                                          //     'SF Pro Display',
-                                          //     fontSize: 15,
-                                          //     fontWeight:
-                                          //     FontWeight.w500,
-                                          //     color: Color(0xff294472),
-                                          //   ),
-                                          // )
-                                          //     : Text(
-                                          //   '• Not allow Business Game',
-                                          //   style: TextStyle(
-                                          //     fontFamily:
-                                          //     'SF Pro Display',
-                                          //     fontSize: 15,
-                                          //     fontWeight:
-                                          //     FontWeight.w500,
-                                          //     color: Color(0xff294472),
-                                          //   ),
-                                          // )
-                                        ],
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '• Manage up to ${about.minBusiness} \n  Businesses',
+                                      style: TextStyle(
+                                        fontFamily:
+                                        'SF Pro Display',
+                                        fontSize: 15,
+                                        fontWeight:
+                                        FontWeight.w500,
+                                        color: Color(
+                                            0xff294472),
                                       ),
                                     ),
-                                  ),
-                                )
-                              : InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return subscription_widget1(
-                                            about: about);
-                                      },
-                                    );
-                                  },
-                                  child: subscription_widget(
-                                    child1: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            height: 30,
-                                            child: Text(
-                                              '₹${about.monthlyPrice}/month',
-                                              style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                decorationThickness: 2,
-                                                fontFamily: 'SF Pro Display',
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xff294472),
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            '₹${about.monthlyOfferPrice}',
-                                            style: TextStyle(
-                                                fontFamily: 'SF Pro Display',
-                                                color: custom,
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            'month',
-                                            style: TextStyle(
-                                              fontFamily: 'SF Pro Display',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xff294472),
-                                            ),
-                                          ),
-                                          Text(
-                                            'or',
-                                            style: TextStyle(
-                                              fontFamily: 'SF Pro Display',
-                                              color: Color(0xff294472),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            '₹${about.yearlyOfferPrice}/Year',
-                                            style: TextStyle(
-                                              fontFamily: 'SF Pro Display',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xff294472),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 30,
-                                            child: Text(
-                                              '₹${about.yearlyPrice}/Year',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                decorationThickness: 2,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                fontFamily: 'SF Pro Display',
-                                                fontSize: 13.5,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xff294472),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    (about.allowWebversion ==
+                                        "1")
+                                        ? Text(
+                                      '• Web Version',
+                                      style:
+                                      TextStyle(
+                                        fontFamily:
+                                        'SF Pro Display',
+                                        fontSize: 15,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500,
+                                        color: Color(
+                                            0xff294472),
+                                      ),
+                                    )
+                                        : Text(
+                                      '• No Web Version',
+                                      style:
+                                      TextStyle(
+                                        fontFamily:
+                                        'SF Pro Display',
+                                        fontSize: 15,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500,
+                                        color: Color(
+                                            0xff294472),
                                       ),
                                     ),
-                                    child2: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            // width: screenwidth(context,dividedby: 2),
-                                            child: Text(
-                                              about.packageName,
-                                              style: TextStyle(
-                                                fontFamily: 'SF Pro Display',
-                                                fontWeight: FontWeight.w600,
-                                                color: custom,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20, top: 15),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '• ${about.minUser} Users',
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'SF Pro Display',
-                                                          color:
-                                                              Color(0xff294472),
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '• Manage up to ${about.minBusiness} \n  Businesses',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            'SF Pro Display',
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color:
-                                                            Color(0xff294472),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    (about.allowWebversion ==
-                                                            "1")
-                                                        ? Text(
-                                                            '• Web Version',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'SF Pro Display',
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Color(
-                                                                  0xff294472),
-                                                            ),
-                                                          )
-                                                        : Text(
-                                                            '• No Web Version',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'SF Pro Display',
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Color(
-                                                                  0xff294472),
-                                                            ),
-                                                          ),
-                                                  ],
-                                                ),
-                                                // Row(
-                                                //   children: [
-                                                //     Text(
-                                                //       '• Play the Business \n  Game',
-                                                //       style: TextStyle(
-                                                //         fontFamily:
-                                                //         'SF Pro Display',
-                                                //         fontSize: 15,
-                                                //         fontWeight:
-                                                //         FontWeight.w500,
-                                                //         color: Color(
-                                                //             0xff294472),
-                                                //       ),
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                        },
-                      )
-                    : SizedBox(),
-              )
+                                  ],
+                                ),
+                                // Row(
+                                //   children: [
+                                //     Text(
+                                //       '• Play the Business \n  Game',
+                                //       style: TextStyle(
+                                //         fontFamily:
+                                //         'SF Pro Display',
+                                //         fontSize: 15,
+                                //         fontWeight:
+                                //         FontWeight.w500,
+                                //         color: Color(
+                                //             0xff294472),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ):SizedBox(),)
             ],
           ),
         ),
       ),
     );
   }
+
 }
 
 class subscription_widget extends StatelessWidget {
@@ -531,7 +521,7 @@ class subscription_widget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 170,
+height: 170,
               width: screenwidth(context, dividedby: 2.7),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(

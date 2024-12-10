@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lezrapp/sharedpref.dart';
-import '../../Dashboard/language changes/languages.dart';
-import '../../helper.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:loader_overlay/loader_overlay.dart';
+
+import '../../api/const_apis.dart';
+import '../../api_model/login/staff_login_model.dart';
+import '../../getx controller/summarycontroller.dart';
+import '../../sharedpref.dart';
 
 class set_Currency extends StatefulWidget {
   const set_Currency({Key? key}) : super(key: key);
@@ -13,6 +18,24 @@ class set_Currency extends StatefulWidget {
 }
 
 class _set_CurrencyState extends State<set_Currency> {
+  List<dynamic> jsonData = [];
+  Future<void> loadJsonData() async {
+    String jsonString =
+        await rootBundle.loadString('assets/data/currency.json');
+    final Map<String, dynamic> jsonResponse = json.decode(jsonString);
+    setState(() {
+      // Access the "data" key to get the list of currencies
+      jsonData = jsonResponse['data'];
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadJsonData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,74 +69,58 @@ class _set_CurrencyState extends State<set_Currency> {
         backgroundColor: Color(0xff294472),
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 8),
-          //   child: DropdownButton<Language>(
-          //     underline: SizedBox(),
-          //     icon: const Icon(
-          //       Icons.language,
-          //       color: Colors.black,
-          //     ),
-          //     onChanged: (Language? language) {
-          //       // print(language!.languageCode.toString());
-          //       // context.setLocale(Locale(language.languageCode.toString(),
-          //       // language.languageContry.toString()));
-          //       Get.updateLocale(Locale(language!.languageCode.toString(),
-          //           language.languageContry.toString()));
-          //     },
-          //     items: Language.languageList()
-          //         .map<DropdownMenuItem<Language>>(
-          //           (e) => DropdownMenuItem<Language>(
-          //             value: e,
-          //             child: Row(
-          //               mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //               children: <Widget>[
-          //                 Text(
-          //                   e.flag,
-          //                   style: const TextStyle(fontSize: 30),
-          //                 ),
-          //                 Text(e.name),
-          //               ],
-          //             ),
-          //           ),
-          //         )
-          //         .toList(),
-          //   ),
-          // ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: Currency.currencyList().length,
-            itemBuilder: (context, index) {
-              Currency currency = Currency.currencyList()[index];
-              return ListTile(
-                onTap: () {
-                  // Get.updateLocale(Locale(currency.languageCode.toString(),
-                  //     language.languageContry.toString()));
-                  // SharedPref.save(value: language.languageCode.toString(), prefKey: PrefKey.languagecode);
-                  // SharedPref.save(value: language.languageContry.toString(), prefKey: PrefKey.langcontry);
-                },
-                title: Text(
-                  currency.name,
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Display',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                leading: Text(
-                  currency.flag,
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Display',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              );
+      body: ListView.builder(
+        itemCount: jsonData.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            onTap: () async {
+              // Get.context!.loaderOverlay.show();
+              await setcurrency(currency: jsonData[index]['symbol'])
+                  .then((value) async {
+                SLogin saveuser =
+                    sLoginFromJson(SharedPref.get(prefKey: PrefKey.saveuser)!);
+                if (value.profile != null) {
+                  saveuser = saveuser.copyWith(
+                      company: Company.fromJson((value.profile!.toJson())));
+
+                  SharedPref.save(
+                      value: jsonEncode(saveuser.toJson()),
+                      prefKey: PrefKey.saveuser);
+                }
+                print(saveuser.toString());
+                Get.put(Summarycontroller()).get_summarydetails();
+                Get.back();
+                // SLogin? valudata = saveuser();
+                // valudata?.company.currency = value.profile?.currency;
+                // SharedPref.save(
+                //     value: jsonEncode(valudata?.toJson()),
+                //     prefKey: PrefKey.saveuser);
+              }).onError((error, stackTrace) {
+                print("....$error");
+              });
+              // Get.updateLocale(Locale(currency.languageCode.toString(),
+              //     language.languageContry.toString()));
+              // SharedPref.save(value: language.languageCode.toString(), prefKey: PrefKey.languagecode);
+              // SharedPref.save(value: language.languageContry.toString(), prefKey: PrefKey.langcontry);
             },
-          ),
-        ],
+            title: Text(
+              '${jsonData[index]['code']} ( ${jsonData[index]['symbol']} )',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            leading: Text(
+              '🇮🇳',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

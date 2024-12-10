@@ -217,7 +217,7 @@ class _supplier_infoState extends State<supplier_info> {
                                   ),
                                 ),
                                 Text(
-                                  'Rs ${widget.about.totalAmount} ${widget.about.transactionType}',
+                                  getformettedamount(text: '${widget.about.totalAmount} ${widget.about.transactionType}'),
                                   style: TextStyle(
                                     fontFamily: 'SF Pro Display',
                                     color: Colors.red,

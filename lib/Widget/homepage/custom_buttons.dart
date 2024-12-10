@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../helper.dart';
@@ -44,8 +43,8 @@ class Custom_buttons extends StatelessWidget {
             child: Row(
               children: [
                 Image(
-                    width: 30.w,
-                    height: 30.h,
+                    width: 50,
+                    height: 50,
 
                     image: AssetImage(Stringimage)),
                 SizedBox(

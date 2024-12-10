@@ -450,7 +450,7 @@ class _mybusState extends State<mybus> {
                                               .end,
                                           children: [
                                             Text(
-                                              'Rs ${about1.totalAmount} ${about1.transactionType}',
+                                        getformettedamount(text: '${about1.totalAmount} ${about1.transactionType}'),
                                               maxLines: 3,
                                               overflow: TextOverflow
                                                   .ellipsis,
@@ -513,7 +513,7 @@ class _mybusState extends State<mybus> {
                                         CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            'Rs ${about1.totalAmount} ${about1.transactionType}',
+                                      getformettedamount(text: '${about1.totalAmount} ${about1.transactionType}'),
                                             style: TextStyle(
                                                 fontFamily:
                                                 'SF Pro Display',
@@ -714,7 +714,7 @@ class _mybusState extends State<mybus> {
                                                               .end,
                                                       children: [
                                                         Text(
-                                                          'Rs ${about.totalAmount} ${about.transactionType}',
+                                                    getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                                                           maxLines: 3,
                                                           overflow: TextOverflow
                                                               .ellipsis,
@@ -777,7 +777,7 @@ class _mybusState extends State<mybus> {
                                                         CrossAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        'Rs ${about.totalAmount} ${about.transactionType}',
+                                            getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'SF Pro Display',

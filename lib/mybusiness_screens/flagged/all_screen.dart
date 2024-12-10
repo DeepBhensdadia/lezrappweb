@@ -224,7 +224,7 @@ class _all_screen_flaggedState extends State<all_screen_flagged> {
                             CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'Rs ${about.totalAmount} ${about.transactionType}',
+                          getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                                 maxLines: 3,
                                 overflow: TextOverflow
                                     .ellipsis,
@@ -287,7 +287,7 @@ class _all_screen_flaggedState extends State<all_screen_flagged> {
                           CrossAxisAlignment.end,
                           children: [
                             Text(
-                              'Rs ${about.totalAmount} ${about.transactionType}',
+                              getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                               style: TextStyle(
                                   fontFamily:
                                   'SF Pro Display',

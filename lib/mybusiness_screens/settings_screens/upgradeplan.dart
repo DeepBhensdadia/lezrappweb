@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../Const.dart';
+import '../../api/const_apis.dart';
 import '../../getx controller/subscription.dart';
 
 class UpgradePlanScreen extends StatefulWidget {
@@ -106,7 +107,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        "Rs 4898",
+                                        getformettedamount(text: "4898"),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             color: custom,
@@ -210,7 +211,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        "Rs 4898",
+                                        getformettedamount(text: "4898"),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             color: custom,
@@ -237,7 +238,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "Deducted Amount: -Rs 1180",
+                                    "Deducted Amount: -${getformettedamount(text: "")} 1180",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: custom,

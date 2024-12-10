@@ -98,7 +98,7 @@ class _all_debitState extends State<all_debit> {
                         Row(
                           children: [
                             Text(
-                              'Rs. ${cre.amount} ${cre.transactionType}',
+            getformettedamount(text: '${cre.amount} ${cre.transactionType}'),
                               style: TextStyle(
                                   fontFamily: 'SF Pro Display',
                                   color: Colors.green,

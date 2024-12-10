@@ -53,8 +53,7 @@ class _AddSupplireState extends State<AddSupplire> {
           if (_selectedContact?.phones?.length == 1) {
             addcuscontroller.phonecontroller_1.text =
                 _selectedContact?.phones?.first.value ?? "";
-            addcuscontroller.adddata(
-                customertypeid: "2");
+            addcuscontroller.adddata(customertypeid: "2");
             cleartext(addcuscontroller);
           } else {
             showModalBottomSheet(
@@ -78,8 +77,7 @@ class _AddSupplireState extends State<AddSupplire> {
                             ?.replaceAll("+91", "");
                         addcuscontroller.phonecontroller_1.text = number ?? "";
                         Navigator.pop(context);
-                        addcuscontroller.adddata(
-                            customertypeid: "2");
+                        addcuscontroller.adddata(customertypeid: "2");
                         cleartext(addcuscontroller);
                       },
                     );
@@ -98,7 +96,6 @@ class _AddSupplireState extends State<AddSupplire> {
       print('Contacts permission denied');
     }
   }
-
 
   File? profilepic;
   Future<void> pickcoverimagecamera() async {
@@ -154,12 +151,10 @@ class _AddSupplireState extends State<AddSupplire> {
       child: Scaffold(
         backgroundColor: Color(0xffEEEEEE),
         appBar: AppBar(
-          backgroundColor:custom,
+          backgroundColor: custom,
           // automaticallyImplyLeading: false,
-          title:  Text(
-            widget.about != null
-                ? "Editsupplier "
-                : 'AddSupplier'.tr,
+          title: Text(
+            widget.about != null ? "Editsupplier " : 'AddSupplier'.tr,
             style: TextStyle(
                 fontFamily: 'SF Pro Display',
                 letterSpacing: 0.2,
@@ -167,41 +162,41 @@ class _AddSupplireState extends State<AddSupplire> {
                 color: Colors.white,
                 fontWeight: FontWeight.w500),
           ),
-         actions: [
-           IconButton(
-             onPressed: () {
-               _requestContactsPermission();
-             },
-             icon: const Icon(
-               size: 30,
-               Icons.contacts,
-               color: Colors.white,
-             ),
-           ),
-           TextButton(
-             onPressed: () async {
-               if(_formKey.currentState!.validate()){
-               widget.about != null
-                   ? addcuscontrollerdata.editdata(
-                   customerphotu: profilepic,
-                   customertypeid:
-                   widget.about?.customerTypeId ?? "2",
-                   CUSTOMEID: widget.about?.customerId ?? "")
-                   : addcuscontroller.adddata(customerphotu: profilepic,
-                   customertypeid: "2");
-               Get.back();
-               cleartext(addcuscontroller);}
-             },
-             child: Text(
-               'SAVE'.tr,
-               style: TextStyle(
-                   fontFamily: 'SF Pro Display',
-                   color: Colors.white,
-                   fontSize: 15,
-                   fontWeight: FontWeight.w500),
-             ),
-           ),
-         ],
+          actions: [
+            IconButton(
+              onPressed: () {
+                _requestContactsPermission();
+              },
+              icon: const Icon(
+                size: 30,
+                Icons.contacts,
+                color: Colors.white,
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  widget.about != null
+                      ? addcuscontrollerdata.editdata(
+                          customerphotu: profilepic,
+                          customertypeid: widget.about?.customerTypeId ?? "2",
+                          CUSTOMEID: widget.about?.customerId ?? "")
+                      : addcuscontroller.adddata(
+                          customerphotu: profilepic, customertypeid: "2");
+                  Get.back();
+                  cleartext(addcuscontroller);
+                }
+              },
+              child: Text(
+                'SAVE'.tr,
+                style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
         ),
         body: Column(
           children: [
@@ -216,190 +211,232 @@ class _AddSupplireState extends State<AddSupplire> {
                         children: [
                           widget.about != null
                               ? Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: InkWell(
-                              onTap: () {
-                                pickgallarycamera();
-                              },
-                              child: profilepic != null ? Container(
-                                alignment: Alignment.bottomCenter,
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-
-                                        image:
-                                        FileImage(File(profilepic!.path))),
-                                    border: Border.all(width: 1, color: custom),
-                                    shape: BoxShape.circle),
-                                child: Container(
-                                  height: 45,
-                                  alignment: Alignment.bottomCenter,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff909196)
-                                        .withOpacity(0.3),
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(100),
-                                      bottomRight: Radius.circular(100),
-                                    ),
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: InkWell(
+                                    onTap: () {
+                                      pickgallarycamera();
+                                    },
+                                    child: profilepic != null
+                                        ? Container(
+                                            alignment: Alignment.bottomCenter,
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: FileImage(File(
+                                                        profilepic!.path))),
+                                                border: Border.all(
+                                                    width: 1, color: custom),
+                                                shape: BoxShape.circle),
+                                            child: Container(
+                                              height: 45,
+                                              alignment: Alignment.bottomCenter,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xff909196)
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(100),
+                                                  bottomRight:
+                                                      Radius.circular(100),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 20),
+                                                child: Text(
+                                                  'Add Pictures'.tr,
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'SF Pro Display',
+                                                      fontSize: 10,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : widget.about!.customerPhoto.isNotEmpty
+                                            ? Container(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: NetworkImage(
+                                                            widget.about!
+                                                                .customerPhoto)),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: custom),
+                                                    shape: BoxShape.circle),
+                                                child: Container(
+                                                  height: 45,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        const Color(0xff909196)
+                                                            .withOpacity(0.3),
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(100),
+                                                      bottomRight:
+                                                          Radius.circular(100),
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 20),
+                                                    child: Text(
+                                                      'Add Pictures'.tr,
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'SF Pro Display',
+                                                          fontSize: 10,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: AssetImage(
+                                                            'assets/img/user.png')),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: custom),
+                                                    shape: BoxShape.circle),
+                                                child: Container(
+                                                  height: 45,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        const Color(0xff909196)
+                                                            .withOpacity(0.3),
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(100),
+                                                      bottomRight:
+                                                          Radius.circular(100),
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 20),
+                                                    child: Text(
+                                                      'Add Pictures'.tr,
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'SF Pro Display',
+                                                          fontSize: 10,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: 20),
-                                    child: Text(
-                                      'Add Pictures'.tr,
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 10,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ): widget.about!.customerPhoto.isNotEmpty ?Container(
-                                alignment: Alignment.bottomCenter,
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image:
-                                        NetworkImage(widget.about!.customerPhoto)),
-                                    border: Border.all(width: 1, color: custom),
-                                    shape: BoxShape.circle),
-                                child: Container(
-                                  height: 45,
-                                  alignment: Alignment.bottomCenter,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff909196)
-                                        .withOpacity(0.3),
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(100),
-                                      bottomRight: Radius.circular(100),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: 20),
-                                    child: Text(
-                                      'Add Pictures'.tr,
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 10,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ):Container(
-                                alignment: Alignment.bottomCenter,
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image:
-                                        AssetImage('assets/img/user.png')),
-                                    border: Border.all(width: 1, color: custom),
-                                    shape: BoxShape.circle),
-                                child: Container(
-                                  height: 45,
-                                  alignment: Alignment.bottomCenter,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff909196)
-                                        .withOpacity(0.3),
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(100),
-                                      bottomRight: Radius.circular(100),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: 20),
-                                    child: Text(
-                                      'Add Pictures'.tr,
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 10,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
+                                )
                               : Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: GestureDetector(
-                              onTap: () {
-                                pickgallarycamera();
-                              },
-                              child:profilepic != null ? Container(
-                                alignment: Alignment.bottomCenter,
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image:
-                                        FileImage(File(profilepic!.path))),
-                                    border: Border.all(width: 1, color: custom),
-                                    shape: BoxShape.circle),
-                                child: Container(
-                                  height: 45,
-                                  alignment: Alignment.bottomCenter,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff909196)
-                                        .withOpacity(0.3),
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(100),
-                                      bottomRight: Radius.circular(100),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: 20),
-                                    child: Text(
-                                      'Add Pictures'.tr,
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 10,
-                                          color: Colors.white),
-                                    ),
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      pickgallarycamera();
+                                    },
+                                    child: profilepic != null
+                                        ? Container(
+                                            alignment: Alignment.bottomCenter,
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: FileImage(File(
+                                                        profilepic!.path))),
+                                                border: Border.all(
+                                                    width: 1, color: custom),
+                                                shape: BoxShape.circle),
+                                            child: Container(
+                                              height: 45,
+                                              alignment: Alignment.bottomCenter,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xff909196)
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(100),
+                                                  bottomRight:
+                                                      Radius.circular(100),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 20),
+                                                child: Text(
+                                                  'Add Pictures'.tr,
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'SF Pro Display',
+                                                      fontSize: 10,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            alignment: Alignment.bottomCenter,
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: AssetImage(
+                                                        'assets/img/user.png')),
+                                                border: Border.all(
+                                                    width: 1, color: custom),
+                                                shape: BoxShape.circle),
+                                            child: Container(
+                                              height: 45,
+                                              alignment: Alignment.bottomCenter,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xff909196)
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(100),
+                                                  bottomRight:
+                                                      Radius.circular(100),
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 20),
+                                                child: Text(
+                                                  'Add Pictures'.tr,
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'SF Pro Display',
+                                                      fontSize: 10,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                   ),
                                 ),
-                              ): Container(
-                                alignment: Alignment.bottomCenter,
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image:
-                                        AssetImage('assets/img/user.png')),
-                                    border: Border.all(width: 1, color: custom),
-                                    shape: BoxShape.circle),
-                                child: Container(
-                                  height: 45,
-                                  alignment: Alignment.bottomCenter,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff909196)
-                                        .withOpacity(0.3),
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(100),
-                                      bottomRight: Radius.circular(100),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: 20),
-                                    child: Text(
-                                      'Add Pictures'.tr,
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 10,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
                           Form(
                             key: _formKey,
                             child: Column(
@@ -421,39 +458,39 @@ class _AddSupplireState extends State<AddSupplire> {
                                   valueListenable: isFieldEmpty,
                                   builder: (context, value, child) =>
                                       Custom_phonenumber_field(
-                                        onchanged: (value) {
-                                          if (value.isEmpty) {
-                                            isFieldEmpty.value = true;
-                                          } else {
-                                            if (addcuscontroller
-                                                .phonecontroller_1.text.length <=
-                                                9) {
-                                              isFieldEmpty.value = true;
-                                            } else {
-                                              isFieldEmpty.value = false;
-                                            }
-                                          }
-                                        },
-                                        color: value ? Colors.red : Colors.green,
-                                        maxlength: 10,
-                                        number: TextInputType.phone,
-                                        controller:
+                                    onchanged: (value) {
+                                      if (value.isEmpty) {
+                                        isFieldEmpty.value = true;
+                                      } else {
+                                        if (addcuscontroller.phonecontroller_1
+                                                .text.length <=
+                                            9) {
+                                          isFieldEmpty.value = true;
+                                        } else {
+                                          isFieldEmpty.value = false;
+                                        }
+                                      }
+                                    },
+                                    color: value ? Colors.red : Colors.green,
+                                    maxlength: 10,
+                                    number: TextInputType.phone,
+                                    controller:
                                         addcuscontroller.phonecontroller_1,
-                                        labelText: "Mobil No.".tr,
-                                        // validation: (value) {
-                                        //   if (value!.isEmpty) {
-                                        //     return 'Mobile No. is required';
-                                        //   }
-                                        //   return null;
-                                        // },
-                                      ),
+                                    labelText: "Mobil No.".tr,
+                                    // validation: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Mobile No. is required';
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
                                 ),
                                 CommonTextField(
                                   isPasswordField: false,
                                   maxlength: 300,
                                   number: TextInputType.text,
                                   controller:
-                                  addcuscontroller.addresscontroller_1,
+                                      addcuscontroller.addresscontroller_1,
                                   labelText: "Address".tr,
                                   // validation: (value) {
                                   //   if (value!.isEmpty) {
@@ -466,7 +503,8 @@ class _AddSupplireState extends State<AddSupplire> {
                                   isPasswordField: false,
                                   maxlength: 200,
                                   number: TextInputType.emailAddress,
-                                  controller: addcuscontroller.emaicontrollerl_1,
+                                  controller:
+                                      addcuscontroller.emaicontrollerl_1,
                                   labelText: "Email".tr,
                                   // validation: (value) {
                                   //   if (value!.isEmpty) {
@@ -479,14 +517,16 @@ class _AddSupplireState extends State<AddSupplire> {
                                   isPasswordField: false,
                                   maxlength: 15,
                                   number: TextInputType.text,
-                                  controller: addcuscontroller.gstincontroller_1,
+                                  controller:
+                                      addcuscontroller.gstincontroller_1,
                                   labelText: "GSTIN".tr,
                                 ),
                                 CommonTextField(
                                   isPasswordField: false,
                                   maxlength: 500,
                                   number: TextInputType.text,
-                                  controller: addcuscontroller.remarkcontroller_1,
+                                  controller:
+                                      addcuscontroller.remarkcontroller_1,
                                   labelText: "Remark".tr,
                                 ),
                                 SizedBox(
@@ -510,10 +550,10 @@ class _AddSupplireState extends State<AddSupplire> {
             const SizedBox(
               height: 5,
             ),
-             Divider(
+            Divider(
               height: 0,
               thickness: 5,
-              color:custom,
+              color: custom,
             ),
           ],
         ),

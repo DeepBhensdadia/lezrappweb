@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../api/const_apis.dart';
+
 class P_transactions extends StatefulWidget {
   const P_transactions({Key? key}) : super(key: key);
 
@@ -170,7 +172,7 @@ class _P_transactionsState extends State<P_transactions> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  'Rs 47,500,000.00',
+                                                  getformettedamount(text: '47,500,000.00'),
                                                   style: GoogleFonts.notoSans(
                                                       fontSize: 14,
                                                       fontWeight:
@@ -273,7 +275,7 @@ class _P_transactionsState extends State<P_transactions> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        'Rs 3,400,030.00',
+                        getformettedamount(text: '3,400,030.00'),
                         style: GoogleFonts.notoSans(
                             color: Colors.black,
                             fontSize: 16,
@@ -295,7 +297,7 @@ class _P_transactionsState extends State<P_transactions> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        'Rs 3,400,030.00',
+                        getformettedamount(text: '3,400,030.00'),
                         style: GoogleFonts.notoSans(
                             color: Colors.black,
                             fontSize: 16,

@@ -1,23 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lezrapp/Const.dart';
-import 'package:lezrapp/Widget/CG.dart';
 import 'package:lezrapp/api/const_apis.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:signature/signature.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lezrapp/controller.dart';
-import 'package:http/http.dart' as http;
 import '../Widget/Addcustomer/textfield.dart';
-import '../Widget/customertextfield_controller.dart';
 import '../api_model/transaction/get_transaction.dart';
 import '../getx controller/summarycontroller.dart';
 import '../getx controller/transactioncontrollers/customercontroller.dart';
@@ -32,7 +26,7 @@ class AddTransaction extends StatefulWidget {
   final String? back;
   final Transaction? task;
   final String? id;
-  AddTransaction( {this.task, this.id, this.back});
+  AddTransaction({this.task, this.id, this.back});
 
   @override
   State<AddTransaction> createState() => _AddTransactionState();
@@ -41,25 +35,28 @@ class AddTransaction extends StatefulWidget {
 class _AddTransactionState extends State<AddTransaction> {
   Transactionadd customeridname = Get.put(Transactionadd());
   TransactionConroller transaction_Conroller = Get.put(TransactionConroller());
-
+  Summarycontroller summary = Get.put(Summarycontroller());
   bool img_temp = false;
   List<File> _imagePaths = [];
   Future<void> _pickotherimage() async {
     try {
-      final pickedImages = await ImagePicker().pickMultiImage(imageQuality: 10);
+      final pickedImages = await ImagePicker().pickMultiImage(imageQuality: 55);
 
       if (pickedImages.isNotEmpty) {
         for (var pickedImage in pickedImages) {
           File imageFile = File(pickedImage.path);
-          var compressedImageBytes = await FlutterImageCompress.compressWithFile(
+          var compressedImageBytes =
+              await FlutterImageCompress.compressWithFile(
             imageFile.path,
-            quality: 10, // Set your desired quality level
+            quality: 55, // Set your desired quality level
           );
-          File compressedImageFile = File(imageFile.path); // Modify this to set the compressed image's file path
-          await compressedImageFile.writeAsBytes(compressedImageBytes!.toList()); // Convert Uint8List to List<int>
-setState(() {
-  _imagePaths.add(compressedImageFile);
-});
+          File compressedImageFile = File(imageFile
+              .path); // Modify this to set the compressed image's file path
+          await compressedImageFile.writeAsBytes(
+              compressedImageBytes!.toList()); // Convert Uint8List to List<int>
+          setState(() {
+            _imagePaths.add(compressedImageFile);
+          });
         }
       }
     } catch (e) {
@@ -69,7 +66,7 @@ setState(() {
 
   Future<void> pickcoverimagecamera() async {
     XFile? Selectedimage = await ImagePicker().pickImage(
-      imageQuality: 10,
+      imageQuality: 55,
       source: ImageSource.camera,
     );
 
@@ -77,7 +74,7 @@ setState(() {
       File imageFile = File(Selectedimage.path);
       var compressedImageBytes = await FlutterImageCompress.compressWithFile(
         imageFile.path,
-        quality: 10, // Set your desired quality level
+        quality: 55, // Set your desired quality level
       );
 
       File compressedImageFile = File(imageFile.path);
@@ -85,8 +82,7 @@ setState(() {
       setState(() {
         _imagePaths.add(compressedImageFile);
       });
-    } else {
-    }
+    } else {}
   }
 
   int cur = 1;
@@ -133,7 +129,8 @@ setState(() {
       {required String transactiondate,
       required String customerid,
       required String transactiontype,
-      required String companyuserid,required String smstype}) async {
+      required String companyuserid,
+      required String smstype}) async {
     context.loaderOverlay.show();
 
     // orderConroller.allpage =0;
@@ -156,11 +153,10 @@ setState(() {
       parameter['signature'] = base64Signature;
     }
     await add_transaction_karo(parameter: parameter).then((value) async {
-
       if (_imagePaths.isNotEmpty) {
         // context.loaderOverlay.hide();
         // plzwait(context);
-        for(File element in _imagePaths) {
+        for (File element in _imagePaths) {
           final bytes = await element.readAsBytes();
           final base64Image = base64Encode(bytes);
           Map<String, dynamic> parameter = {
@@ -175,10 +171,8 @@ setState(() {
             print("error...$error");
           });
         }
-        // context.loaderOverlay.show();
-        // Get.back();
       }
-
+      summary.get_summarydetails();
       transaction_Conroller.allpage = 0;
       transaction_Conroller.getpages2(transaction_Conroller.customtype);
       _customertransactioncontroller.transaction.clear();
@@ -203,7 +197,8 @@ setState(() {
       {required String transactiondate,
       required String customerid,
       required String transactiontype,
-      required String companyuserid}) async {
+      required String companyuserid,
+      required String smstype}) async {
     context.loaderOverlay.show();
     Map<String, dynamic> parameter = {
       'amount': amount.text,
@@ -215,7 +210,8 @@ setState(() {
       'company_id': saveuser()!.company.companyId,
       'user_id': saveuser()!.company.userId,
       'due_date': DDate.text,
-      "transaction_id": widget.task?.transactionId
+      "transaction_id": widget.task?.transactionId,
+      'sms_type': smstype
     };
 
     await update_transaction_karo(parameter: parameter).then((value) {
@@ -255,7 +251,9 @@ setState(() {
   @override
   void initState() {
     customeridname.account.clear();
-    widget.task != null ? customeridname.account.text = widget.task!.customerName : "";
+    widget.task != null
+        ? customeridname.account.text = widget.task!.customerName
+        : "";
     customeridname.postsupplire.clear();
     customeridname.postcustomer.clear();
     customeridname
@@ -280,11 +278,15 @@ setState(() {
     var date = DateTime.now();
     var duedate = DateFormat('yyyy-MM-dd').format(widget.task?.dueDate != null
         ? DateTime.parse(widget.task?.dueDate ?? "")
-        : DDate.text.isEmpty? date:DateTime.parse(DDate.text));
-    var transcationdate = DateFormat('yyyy-MM-dd HH:mm:ss').format(
-        widget.task?.transactionDate != null
+        : DDate.text.isEmpty
+            ? date
+            : DateTime.parse(DDate.text));
+    var transcationdate = DateFormat('yyyy-MM-dd HH:mm:ss')
+        .format(widget.task?.transactionDate != null
             ? DateTime.parse(widget.task?.transactionDate ?? "")
-            :tranDate.text.isEmpty? date:DateTime.parse(tranDate.text));
+            : tranDate.text.isEmpty
+                ? date
+                : DateTime.parse(tranDate.text));
 
     DDate.text = duedate;
     tranDate.text = transcationdate;
@@ -304,16 +306,16 @@ setState(() {
                   children: [
                     Row(
                       children: [
-                        if(widget.back?.isEmpty ?? true)
-                        IconButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new,
-                            color: Colors.white,
+                        if (widget.back?.isEmpty ?? true)
+                          IconButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
                         const SizedBox(
                           width: 20,
                         ),
@@ -344,30 +346,48 @@ setState(() {
                                           customerid: customeridname
                                                   .customeridtest?.customerId ??
                                               "",
-                                          companyuserid:
-                                              _summarycontroller.staff.isTrue
-                                                  ? saveuser()?.user.companyUserId
-                                                  : "0",
+                                          companyuserid: _summarycontroller.staff
+                                                  .isTrue
+                                              ? saveuser()?.user.companyUserId
+                                              : "0",
                                           transactiondate: tranDate.text,
                                           transactiontype:
-                                              cur == 1 ? "1" : "-1")
+                                              cur == 1 ? "1" : "-1",
+                                          smstype: customeridname.customeridtest
+                                                      ?.customerTypeId ==
+                                                  "1"
+                                              ? cur == 1
+                                                  ? "cpurchase"
+                                                  : "cpayment"
+                                              : cur == 1
+                                                  ? "spurchase"
+                                                  : "spayment")
                                       : addtransaction(
                                           customerid: customeridname
                                                   .customeridtest?.customerId ??
                                               "",
-                                          companyuserid:
-                                              _summarycontroller.staff.isTrue
-                                                  ? saveuser()?.user.companyUserId
-                                                  : "0",
+                                          companyuserid: _summarycontroller
+                                                  .staff.isTrue
+                                              ? saveuser()?.user.companyUserId
+                                              : "0",
                                           transactiondate: tranDate.text,
                                           transactiontype:
-                                              cur == 1 ? "1" : "-1",smstype:customeridname.customeridtest?.customerTypeId == "1"  ?cur == 1 ? "cpurchase" :"cpayment" : cur == 1 ? "spurchase":"spayment");
+                                              cur == 1 ? "1" : "-1",
+                                          smstype: customeridname.customeridtest
+                                                      ?.customerTypeId ==
+                                                  "1"
+                                              ? cur == 1
+                                                  ? "cpurchase"
+                                                  : "cpayment"
+                                              : cur == 1
+                                                  ? "spurchase"
+                                                  : "spayment");
                                 }
                               }
                             } else {
                               Fluttertoast.showToast(
                                   msg:
-                                      "Your package is Expire plz Renew package");
+                                      "Your package has expired. Please renew the package.");
                             }
                           },
                           child: Text(
@@ -486,7 +506,7 @@ setState(() {
                                                 enabledBorder:
                                                     UnderlineInputBorder(
                                                   borderSide: BorderSide(
-                                                      color:custom,
+                                                      color: custom,
                                                       width: 0.5),
                                                 ),
                                                 focusedBorder:
@@ -512,7 +532,7 @@ setState(() {
                                         onPressed: () {},
                                         icon: Icon(
                                           Icons.search,
-                                          color:custom,
+                                          color: custom,
                                         ),
                                       ),
                                     ],
@@ -532,7 +552,7 @@ setState(() {
                                           maxLines: 1,
                                           style: TextStyle(
                                               fontFamily: 'SF Pro Display',
-                                              color:custom,
+                                              color: custom,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600),
                                           textAlign: TextAlign.center,
@@ -550,16 +570,16 @@ setState(() {
                                           fontSize: 16,
                                           letterSpacing: 1,
                                         ),
-                                        decoration:  InputDecoration(
+                                        decoration: InputDecoration(
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color:custom,
+                                              color: custom,
                                               width: 0.5,
                                             ),
                                           ),
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                              color:custom,
+                                              color: custom,
                                               width: 0.5,
                                             ),
                                           ),
@@ -582,7 +602,7 @@ setState(() {
                                       },
                                       icon: Icon(
                                         Icons.calendar_month_rounded,
-                                        color:custom,
+                                        color: custom,
                                       ),
                                     ),
                                   ],
@@ -599,7 +619,7 @@ setState(() {
                                         },
                                         icon: Icon(
                                           Icons.camera_alt,
-                                        color:custom,
+                                          color: custom,
                                         ),
                                       ),
                                     ],
@@ -633,7 +653,7 @@ setState(() {
                                                 style: TextStyle(
                                                     fontFamily:
                                                         'SF Pro Display',
-                                                  color:custom,
+                                                    color: custom,
                                                     fontSize: 16,
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -652,18 +672,18 @@ setState(() {
                                                 fontSize: 16,
                                                 letterSpacing: 1,
                                               ),
-                                              decoration:  InputDecoration(
+                                              decoration: InputDecoration(
                                                 focusedBorder:
                                                     UnderlineInputBorder(
                                                   borderSide: BorderSide(
-                                                  color:custom,
+                                                    color: custom,
                                                     width: 0.5,
                                                   ),
                                                 ),
                                                 enabledBorder:
                                                     UnderlineInputBorder(
                                                   borderSide: BorderSide(
-                                                  color:custom,
+                                                    color: custom,
                                                     width: 0.5,
                                                   ),
                                                 ),
@@ -719,7 +739,7 @@ setState(() {
                                             },
                                             icon: Icon(
                                               Icons.calendar_month_rounded,
-                                            color:custom,
+                                              color: custom,
                                             ),
                                           ),
                                         ],
@@ -750,7 +770,7 @@ setState(() {
                                     maxLines: 1,
                                     style: TextStyle(
                                         fontFamily: 'SF Pro Display',
-                                      color:custom,
+                                        color: custom,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                     textAlign: TextAlign.center,
@@ -784,7 +804,7 @@ setState(() {
                                             child: Center(
                                               child: Padding(
                                                 padding:
-                                                    const EdgeInsets.all(0.0),
+                                                    const EdgeInsets.all(8.0),
                                                 child: Row(
                                                   children: [
                                                     (cur == 1)
@@ -828,7 +848,7 @@ setState(() {
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color: (cur == 2)
-                                                  ?custom
+                                                  ? custom
                                                   : Colors.grey.shade200,
                                             ),
                                             height: screenheight(context,
@@ -918,62 +938,71 @@ setState(() {
                                                       ),
                                                       IconButton(
                                                           onPressed: () async {
-                                                            String cach = generateCaptchaCode(4);
+                                                            String cach =
+                                                                generateCaptchaCode(
+                                                                    4);
 
                                                             showDialog(
-                                                                context: context,
-                                                                builder: (context) {
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
                                                                   cpcha.clear();
                                                                   return s_code(
-                                                                    controll: cpcha,
-                                                                    capchacode: cach,
-                                                                    onconfirm: () async {
-                                                                      if (cach == cpcha.text) {
-                                                                        context.loaderOverlay.show();
+                                                                    controll:
+                                                                        cpcha,
+                                                                    capchacode:
+                                                                        cach,
+                                                                    onconfirm:
+                                                                        () async {
+                                                                      if (cach ==
+                                                                          cpcha
+                                                                              .text) {
+                                                                        context
+                                                                            .loaderOverlay
+                                                                            .show();
                                                                         Map<String,
-                                                                            dynamic>
-                                                                        parameter =
-                                                                        {
+                                                                                dynamic>
+                                                                            parameter =
+                                                                            {
                                                                           'transaction_image_id': widget
                                                                               .task!
-                                                                              .transactionImages[
-                                                                          index]
+                                                                              .transactionImages[index]
                                                                               .transactionImageId,
-                                                                          'company_id':
-                                                                          saveuser()!
+                                                                          'company_id': saveuser()!
                                                                               .company
                                                                               .companyId,
-                                                                          'user_id':
-                                                                          saveuser()!
+                                                                          'user_id': saveuser()!
                                                                               .company
                                                                               .userId,
                                                                         };
 
-                                                                        await deletetransactionimage(
-                                                                            parameter:
-                                                                            parameter)
-                                                                            .then(
-                                                                                (value) {
-                                                                                  context.loaderOverlay.hide();
-                                                                              widget.task!
-                                                                                  .transactionImages
-                                                                                  .removeAt(
-                                                                                  index);
-                                                                              Get.back();
-                                                                              Fluttertoast.showToast(
-                                                                                  msg: value.message);
-
-
-                                                                                }).onError((error,
+                                                                        await deletetransactionimage(parameter: parameter).then(
+                                                                            (value) {
+                                                                          context
+                                                                              .loaderOverlay
+                                                                              .hide();
+                                                                          widget
+                                                                              .task!
+                                                                              .transactionImages
+                                                                              .removeAt(index);
+                                                                          Get.back();
+                                                                          Fluttertoast.showToast(
+                                                                              msg: value.message);
+                                                                        }).onError((error,
                                                                             stackTrace) {
-                                                                          context.loaderOverlay.hide();
-                                                                          print(error);
+                                                                          context
+                                                                              .loaderOverlay
+                                                                              .hide();
+                                                                          print(
+                                                                              error);
                                                                         });
-                                                                        setState(() {});
+                                                                        setState(
+                                                                            () {});
                                                                       } else {
                                                                         Fluttertoast.showToast(
                                                                             msg:
-                                                                            "Security code doesn't match!!");
+                                                                                "Security code doesn't match!!");
                                                                       }
                                                                     },
                                                                   );
@@ -1016,11 +1045,12 @@ setState(() {
                                                             IconButton(
                                                                 onPressed:
                                                                     () async {
-                                                                      setState(() {
-                                                                        _imagePaths.removeAt(index);
-                                                                      });
-
-                                                                    },
+                                                                  setState(() {
+                                                                    _imagePaths
+                                                                        .removeAt(
+                                                                            index);
+                                                                  });
+                                                                },
                                                                 icon: Icon(Icons
                                                                     .delete))
                                                           ],
@@ -1032,48 +1062,40 @@ setState(() {
                                           ],
                                         )
                                       : SizedBox()
-                                  :           _imagePaths.isNotEmpty
-                                  ? Container(
-                                height: 100,
-                                width: double.infinity,
-                                child: ListView.builder(
-                                  scrollDirection:
-                                  Axis.horizontal,
-                                  itemCount:
-                                  _imagePaths.length,
-                                  itemBuilder:
-                                      (context, index) {
-                                    return Row(
-                                      children: [
-                                        Container(
+                                  : _imagePaths.isNotEmpty
+                                      ? Container(
                                           height: 100,
-                                          width: 100,
-                                          decoration:
-                                          BoxDecoration(
-                                            image:
-                                            DecorationImage(
-                                              image: FileImage(
-                                                  _imagePaths[
-                                                  index]),
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                            onPressed:
-                                                () async {
-                                              setState(() {
-                                                _imagePaths.removeAt(index);
-                                              });
-
+                                          width: double.infinity,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: _imagePaths.length,
+                                            itemBuilder: (context, index) {
+                                              return Row(
+                                                children: [
+                                                  Container(
+                                                    height: 100,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        image: FileImage(
+                                                            _imagePaths[index]),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: () async {
+                                                        setState(() {
+                                                          _imagePaths
+                                                              .removeAt(index);
+                                                        });
+                                                      },
+                                                      icon: Icon(Icons.delete))
+                                                ],
+                                              );
                                             },
-                                            icon: Icon(Icons
-                                                .delete))
-                                      ],
-                                    );
-                                  },
-                                ),
-                              )
-                                  : SizedBox(),
+                                          ),
+                                        )
+                                      : SizedBox(),
                               Visibility(
                                 visible: widget.task != null ? false : true,
                                 child: Column(
@@ -1095,7 +1117,7 @@ setState(() {
                                           'Sign here'.tr,
                                           style: TextStyle(
                                               fontFamily: 'SF Pro Display',
-                                            color:custom,
+                                              color: custom,
                                               fontSize: 19,
                                               fontWeight: FontWeight.w500),
                                         ),
@@ -1112,7 +1134,7 @@ setState(() {
                                                 style: TextStyle(
                                                     fontFamily:
                                                         'SF Pro Display',
-                                                  color:custom,
+                                                    color: custom,
                                                     fontSize: 19,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -1145,10 +1167,10 @@ setState(() {
             const SizedBox(
               height: 5,
             ),
-             Divider(
+            Divider(
               height: 0,
               thickness: 5,
-            color:custom,
+              color: custom,
             ),
           ],
         ),

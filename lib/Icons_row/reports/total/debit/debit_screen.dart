@@ -20,7 +20,8 @@ class debit_screen extends StatefulWidget {
   State<debit_screen> createState() => _debit_screenState();
 }
 
-class _debit_screenState extends State<debit_screen> with SingleTickerProviderStateMixin{
+class _debit_screenState extends State<debit_screen>
+    with SingleTickerProviderStateMixin {
   TextEditingController TFromDate = TextEditingController();
   TextEditingController TToDate = TextEditingController();
   // bool showfilter = false;
@@ -47,6 +48,7 @@ class _debit_screenState extends State<debit_screen> with SingleTickerProviderSt
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,7 +80,7 @@ class _debit_screenState extends State<debit_screen> with SingleTickerProviderSt
                         const SizedBox(
                           width: 20,
                         ),
-                         Text(
+                        Text(
                           'Total Debit'.tr,
                           style: TextStyle(
                               fontFamily: 'SF Pro Display',
@@ -100,11 +102,11 @@ class _debit_screenState extends State<debit_screen> with SingleTickerProviderSt
                                     address: saveuser()?.company.companyAddress,
                                     type: "Customer Advances",
                                     paymentInfo:
-                                    'https://paypal.me/sarahfieldzz',
+                                        'https://paypal.me/sarahfieldzz',
                                   ),
                                   items: List.generate(
                                     total.credit.transactions.length,
-                                        (index) => InvoiceItem2(
+                                    (index) => InvoiceItem2(
                                       srno_: "${index + 1}",
                                       Customername: total.credit
                                           .transactions[index].customerName,
@@ -115,69 +117,68 @@ class _debit_screenState extends State<debit_screen> with SingleTickerProviderSt
                                       type: total.credit.transactions[index]
                                           .transactionType,
                                       amount:
-                                      " Rs ${total.credit.transactions[index].amount}",
+                                      getformettedamount(text: "${total.credit.transactions[index].amount}"),
                                     ),
-                                  ).sublist(0,total.credit.transactions.length > 350 ? 350 :total.credit.transactions.length),
+                                  ).toList(),
                                 );
                                 final pdfFile =
-                                await PdfInvoice.generate(invoice);
-                              } else  if (index == 1) {
+                                    await PdfInvoice.generate(invoice);
+                              } else if (index == 1) {
                                 final invoice = Invoice2(
                                   supplier: Supplier2(
                                     name: saveuser()?.company.companyName,
                                     address: saveuser()?.company.companyAddress,
                                     type: "Customer Advances",
                                     paymentInfo:
-                                    'https://paypal.me/sarahfieldzz',
+                                        'https://paypal.me/sarahfieldzz',
                                   ),
                                   items: List.generate(
                                     customer.credit.transactions.length,
-                                        (index) => InvoiceItem2(
+                                    (index) => InvoiceItem2(
                                       srno_: "${index + 1}",
                                       Customername: customer.credit
                                           .transactions[index].customerName,
-                                      mobileno: customer.credit.transactions[index]
-                                          .customerMobileNo,
+                                      mobileno: customer.credit
+                                          .transactions[index].customerMobileNo,
                                       address: customer
                                           .credit.transactions[index].remark,
                                       type: customer.credit.transactions[index]
                                           .transactionType,
                                       amount:
-                                      " Rs ${customer.credit.transactions[index].amount}",
+                                      getformettedamount(text: "${customer.credit.transactions[index].amount}"),
                                     ),
-                                  ).sublist(0,customer.credit.transactions.length > 350 ? 350 :customer.credit.transactions.length),
+                                  ).toList(),
                                 );
                                 final pdfFile =
-                                await PdfInvoice.generate(invoice);
-                              }
-                              else {
+                                    await PdfInvoice.generate(invoice);
+                              } else {
                                 final invoice = Invoice2(
                                   supplier: Supplier2(
                                     name: saveuser()?.company.companyName,
                                     address: saveuser()?.company.companyAddress,
                                     type: "Customer Advances",
                                     paymentInfo:
-                                    'https://paypal.me/sarahfieldzz',
+                                        'https://paypal.me/sarahfieldzz',
                                   ),
                                   items: List.generate(
                                     supplire.credit.transactions.length,
-                                        (index) => InvoiceItem2(
+                                    (index) => InvoiceItem2(
                                       srno_: "${index + 1}",
                                       Customername: supplire.credit
                                           .transactions[index].customerName,
-                                      mobileno: supplire.credit.transactions[index]
-                                          .customerMobileNo,
+                                      mobileno: supplire.credit
+                                          .transactions[index].customerMobileNo,
                                       address: supplire
                                           .credit.transactions[index].remark,
                                       type: supplire.credit.transactions[index]
                                           .transactionType,
                                       amount:
-                                      " Rs ${supplire.credit.transactions[index].amount}",
+                                      getformettedamount(text: "${supplire.credit.transactions[index].amount}"),
                                     ),
-                                  ).sublist(0, supplire.credit.transactions.length > 350 ? 350 : supplire.credit.transactions.length),
+                                  ).toList(),
                                 );
                                 final pdfFile =
-                                await PdfInvoice.generate(invoice);
+                                    await PdfInvoice.generate(invoice);
                               }
                             },
                             icon: const Icon(
@@ -193,7 +194,7 @@ class _debit_screenState extends State<debit_screen> with SingleTickerProviderSt
               Container(
                 height: 40,
                 child: TabBar(
-                  // isScrollable: true,
+                    // isScrollable: true,
 
                     physics: NeverScrollableScrollPhysics(),
                     controller: controller,
@@ -205,19 +206,28 @@ class _debit_screenState extends State<debit_screen> with SingleTickerProviderSt
                       Tab(
                         child: Text(
                           'ALL'.tr,
-                          style: TextStyle(fontFamily: 'SF Pro Display',color: Colors.black, fontSize: 16),
+                          style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                       ),
                       Tab(
                         child: Text(
                           'CUSTOMER'.tr,
-                          style: TextStyle(fontFamily: 'SF Pro Display',color: Colors.black, fontSize: 16),
+                          style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                       ),
                       Tab(
                         child: Text(
                           'SUPPLIER'.tr,
-                          style: TextStyle(fontFamily: 'SF Pro Display',color: Colors.black, fontSize: 16),
+                          style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              color: Colors.black,
+                              fontSize: 16),
                         ),
                       ),
                     ]),
@@ -238,7 +248,7 @@ class _debit_screenState extends State<debit_screen> with SingleTickerProviderSt
                   child: TabBarView(
                     // physics: NeverScrollableScrollPhysics(),
                     controller: controller,
-                    children:  [
+                    children: [
                       all_debit(),
                       customer_debit(),
                       supplier_debit()

@@ -91,28 +91,36 @@ class _selectBusiness_screenState extends State<selectBusiness_screen> {
                       TextButton(
                         onPressed: () async {
                           Get.context!.loaderOverlay.show();
-                          await getsetcompany(gen!.companyId.toString()).then((value) async {
-                           Get.delete();
-                          await SharedPref.deleteAll();
-                           print(saveuser());
+                          await getsetcompany(gen!.companyId.toString())
+                              .then((value) async {
+                            Get.delete();
+                            await SharedPref.deleteAll();
+                            print(saveuser());
 
-                           await SharedPref.save(
+                            await SharedPref.save(
                                 value: jsonEncode(value.toJson()),
                                 prefKey: PrefKey.saveuser);
-                           Future.delayed(const Duration(seconds: 3),() {
-                             Get.offAll(SplashScreen());
-                             Get.context!.loaderOverlay.hide();
-                           },);
-
+                            Future.delayed(
+                              const Duration(seconds: 3),
+                              () {
+                                Get.offAll(SplashScreen());
+                                Get.context!.loaderOverlay.hide();
+                              },
+                            );
 
                             print(value.toString());
-                          }).onError((error, stackTrace) {print("....$error");});
+                          }).onError((error, stackTrace) {
+                            print("....$error");
+                          });
                         },
                         child: const Text(
-                         "Select",style: TextStyle(fontSize: 18,color: Colors.white),
+                          "Select",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
-                      SizedBox(width: 15,)
+                      SizedBox(
+                        width: 15,
+                      )
                     ],
                   )
                 ],
@@ -133,7 +141,6 @@ class _selectBusiness_screenState extends State<selectBusiness_screen> {
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       color: Colors.white,
                       child: RadioListTile(
-
                         controlAffinity: ListTileControlAffinity.trailing,
                         tileColor: Colors.white,
                         visualDensity: VisualDensity.compact,
@@ -176,16 +183,19 @@ class _selectBusiness_screenState extends State<selectBusiness_screen> {
                         ),
                         onChanged: (value) {
                           print(value.toString());
-                        setState(() {
-                          gen = value;
-                        });
+                          setState(() {
+                            gen = value;
+                          });
                         },
                       ),
                     );
                   },
                   itemCount: getcompany.companies!.length,
                 )
-              : Center(child: CircularProgressIndicator(color: custom,))
+              : Center(
+                  child: CircularProgressIndicator(
+                  color: custom,
+                ))
           // Column(
           //   children: [
           //     Container(

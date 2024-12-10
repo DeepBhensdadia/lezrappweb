@@ -1,30 +1,34 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lezrapp/api/const_apis.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
 import '../model/invoice.dart';
 
-import 'package:pdf/widgets.dart';
-import '../model/customer.dart';
 import '../model/supplier.dart';
-import '../utils.dart';
 
 class transactionpdfprint {
+
   static Future transactiongenerat(transactionInvoice invoice) async {
+    final font = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/noto-sans-regular.ttf'),
+    );
     DateTime date = DateTime.now();
     String dateformate = DateFormat('dd-MM-yyyy').format(date);
     final doc = pw.Document();
-    doc.addPage(pw.MultiPage(
-      pageFormat: PdfPageFormat.a4,
-      header: (context) {
-        return  buildSupplierAddress(invoice.supplier);
-      },
-      build: (pw.Context context) => [
-        buildInvoice(invoice),
-      ],
-    ));
+    doc.addPage(
+      pw.MultiPage(
+        maxPages: 1000,
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) => [
+          buildSupplierAddress(invoice.supplier),
+          buildInvoice(invoice,font),
+        ],
+      ),
+    );
 
     // doc.addPage(pw.MultiPage(
     //   pageFormat: PdfPageFormat.a4,
@@ -33,14 +37,14 @@ class transactionpdfprint {
     //   ],
     // ));
 
-    await Printing.layoutPdf(
-        onLayout: (PdfPageFormat format) async => doc.save());
+    await Printing.layoutPdf(onLayout: (PdfPageFormat format) async {
+      return doc.save();
+    });
   }
 
   static pw.Widget buildHeader(transactionInvoice invoice) => pw.Column(
         children: [
           // SizedBox(height: 10),
-
         ],
       );
 
@@ -73,7 +77,7 @@ class transactionpdfprint {
         ],
       );
 
-  static pw.Widget buildInvoice(transactionInvoice invoice) {
+  static pw.Widget buildInvoice(transactionInvoice invoice,font) {
     final headers = [
       'Sr No.',
       'Date',
@@ -92,9 +96,9 @@ class transactionpdfprint {
           item.customer,
           item.remark,
           item.User,
-          item.credit,
-          item.debit,
-          item.blance,
+          getformettedamount(text:item.credit),
+          getformettedamount(text:item.debit),
+          getformettedamount(text: item.blance),
         ];
       },
     ).toList();
@@ -102,12 +106,14 @@ class transactionpdfprint {
     return pw.Table.fromTextArray(
       cellStyle: pw.TextStyle(
         fontSize: 6,
+        font: font,
       ),
       headers: headers,
       data: data,
       border: pw.TableBorder.all(color: PdfColors.black, width: 0.5),
       cellAlignment: pw.Alignment.center,
       headerStyle: pw.TextStyle(
+        font: font,
         fontSize: 8,
         color: PdfColors.white,
         fontWeight: FontWeight.bold,
@@ -116,7 +122,6 @@ class transactionpdfprint {
         color: PdfColor.fromInt(0xff294472),
       ),
       cellHeight: 15,
-
       cellAlignments: {
         0: pw.Alignment.center,
         1: pw.Alignment.center,

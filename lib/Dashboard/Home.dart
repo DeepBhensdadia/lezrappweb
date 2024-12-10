@@ -1,12 +1,10 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lezrapp/Dashboard/you_will/you_will.dart';
 import 'package:lezrapp/play/P_splash_screen.dart';
-import 'package:lezrapp/scanner/page1.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Const.dart';
 import '../Widget/homepage/Icons_withname.dart';
@@ -17,14 +15,12 @@ import '../Widget/homepage/custom_pageview.dart';
 import '../Widget/homepage/fIrst_container.dart';
 import '../Widget/homepage/home_textfield.dart';
 import '../Widget/homepage/icons_row.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../api/const_apis.dart';
 import '../api_model/get_summary.dart';
 import '../controller.dart';
 import '../getx controller/subscription.dart';
 import '../getx controller/summarycontroller.dart';
 import '../helper.dart';
-import '../login/loginas_screen.dart';
 import '../mybusiness_screens/settings_screens/subscriptions_screens.dart';
 import '../scanner/datascanfirstpage.dart';
 import '../screens/Transactions/transactions.dart';
@@ -90,8 +86,7 @@ class _HomeState extends State<Home> {
                                       children: [
                                         First_Container(
                                           name: 'YOU WILL GET',
-                                          rupees:
-                                              '₹ ${controller.summary.summery.totalReceivalble.toStringAsFixed(2)}',
+                                          rupees: getformettedamount(text: '${controller.summary.summery.totalReceivalble.toStringAsFixed(2)}'),
                                           onpress: () {
                                             String year =
                                                 DateTime.now().year.toString();
@@ -103,7 +98,7 @@ class _HomeState extends State<Home> {
                                         First_Container(
                                           name: 'YOU WILL PAY',
                                           rupees:
-                                              '₹ ${controller.summary.summery.totalPayable.toStringAsFixed(2)}',
+          getformettedamount(text: '${controller.summary.summery.totalPayable.toStringAsFixed(2)}'),
                                           onpress: () {
                                             String year =
                                                 DateTime.now().year.toString();
@@ -131,11 +126,11 @@ class _HomeState extends State<Home> {
                                 thickness: 7,
                                 color: Colors.grey.withOpacity(0.2),
                               ),
-                              Customer_Pageview(),
-                              Divider(
-                                thickness: 7,
-                                color: Colors.grey.withOpacity(0.2),
-                              ),
+                              // Customer_Pageview(),
+                              // Divider(
+                              //   thickness: 7,
+                              //   color: Colors.grey.withOpacity(0.2),
+                              // ),
                               My_Business(summary: controller.summary),
                               Divider(
                                 thickness: 7,

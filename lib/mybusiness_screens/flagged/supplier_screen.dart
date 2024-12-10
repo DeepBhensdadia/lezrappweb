@@ -224,7 +224,7 @@ class _supplier_screenState extends State<supplier_screen> {
                               CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  'Rs ${about.totalAmount} ${about.transactionType}',
+                            getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                                   maxLines: 3,
                                   overflow: TextOverflow
                                       .ellipsis,
@@ -286,7 +286,7 @@ class _supplier_screenState extends State<supplier_screen> {
                             CrossAxisAlignment.end,
                             children: [
                               Text(
-                                'Rs ${about.totalAmount} ${about.transactionType}',
+                          getformettedamount(text: '${about.totalAmount} ${about.transactionType}'),
                                 style: TextStyle(
                                     fontFamily:
                                     'SF Pro Display',

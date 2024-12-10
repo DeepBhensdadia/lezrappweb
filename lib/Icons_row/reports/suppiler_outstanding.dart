@@ -101,9 +101,9 @@ class _suppiler_outstandingState extends State<suppiler_outstanding> {
                                   supplire.customers[index].customerAddress,
                                   type:
                                   supplire.customers[index].transactionType,
-                                  amount: " Rs ${supplire.customers[index].amount}",
+                                  amount: getformettedamount(text: "${supplire.customers[index].amount}"),
                                 ),
-                              ).sublist(0,supplire.customers.length>450?450:supplire.customers.length),
+                              ).toList(),
                             );
 
                             final pdfFile = await PdfInvoice.generate(invoice);
@@ -177,7 +177,7 @@ class _suppiler_outstandingState extends State<suppiler_outstanding> {
                                     Row(
                                       children: [
                                         Text(
-                                          'Rs. ${supplire.customers[index].amount} ${supplire.customers[index].transactionType}',
+              getformettedamount(text: '${supplire.customers[index].amount} ${supplire.customers[index].transactionType}'),
                                           style: TextStyle(
                                               fontFamily: 'SF Pro Display',
                                               color: Colors.red,

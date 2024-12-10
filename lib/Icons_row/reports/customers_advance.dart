@@ -104,10 +104,11 @@ class _customers_advanceState extends State<customers_advance> {
                                       custmer.customers[index].customerAddress,
                                   type:
                                       custmer.customers[index].transactionType,
-                                  amount:
-                                      " Rs ${custmer.customers[index].amount}",
+                                  amount: getformettedamount(
+                                      text:
+                                          "${custmer.customers[index].amount}"),
                                 ),
-                              ),
+                              ).toList(),
                             );
                             final pdfFile = await PdfInvoice.generate(invoice);
                           },
@@ -152,7 +153,8 @@ class _customers_advanceState extends State<customers_advance> {
                                   // borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -169,16 +171,15 @@ class _customers_advanceState extends State<customers_advance> {
                                           ),
                                         ),
                                         Container(
-                                          width: screenwidth(context,dividedby: 2.3),
+                                          width: screenwidth(context,
+                                              dividedby: 2.3),
                                           child: Text(
                                             customer.customerName,
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 overflow: TextOverflow.ellipsis,
-                                                fontFamily:
-                                                'SF Pro Display',
-                                                fontWeight:
-                                                FontWeight.w500,
+                                                fontFamily: 'SF Pro Display',
+                                                fontWeight: FontWeight.w500,
                                                 color: Colors.black,
                                                 fontSize: 17),
                                           ),
@@ -189,20 +190,20 @@ class _customers_advanceState extends State<customers_advance> {
                                       padding: const EdgeInsets.fromLTRB(
                                           5, 0, 15, 0),
                                       child: Container(
-                                        width: screenwidth(context,dividedby: 3.3),
+                                        width: screenwidth(context,
+                                            dividedby: 3.3),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
                                             Text(
-                                              'Rs. ${customer.amount.toStringAsFixed(0)} ${customer.transactionType}',
+                    getformettedamount(text: '${customer.amount.toStringAsFixed(0)} ${customer.transactionType}'),
                                               style: TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-
-                                                  fontFamily:
-                                                      'SF Pro Display',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontFamily: 'SF Pro Display',
                                                   color: Colors.green,
-                                                  fontWeight:
-                                                      FontWeight.w500,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 17),
                                             ),
                                           ],

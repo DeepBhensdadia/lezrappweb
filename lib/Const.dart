@@ -183,16 +183,17 @@ planexpireshowdialogbox(BuildContext context) {
                   SizedBox(
                     height: 35,
                   ),
-                  CupertinoButton(
-                    color: yellowcustomer,
-                    onPressed: () {
-                      Get.to(subscriptions_screens());
-                    },
-                    child: Text(
-                      "BUY NOW",
-                      style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w600),
-                    ),
-                  ),   SizedBox(
+                  // CupertinoButton(
+                  //   color: yellowcustomer,
+                  //   onPressed: () {
+                  //     Get.to(subscriptions_screens());
+                  //   },
+                  //   child: Text(
+                  //     "BUY NOW",
+                  //     style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w600),
+                  //   ),
+                  // ),
+                  SizedBox(
                     height: 25,
                   ),
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../api/const_apis.dart';
+
 class P_cash extends StatelessWidget {
   const P_cash({Key? key}) : super(key: key);
 
@@ -48,7 +50,7 @@ class P_cash extends StatelessWidget {
                 ),
                 SizedBox(width: 30),
                 Text(
-                  'Rs 20,000.00',
+                  getformettedamount(text: '20,000.00'),
                   style: GoogleFonts.notoSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -78,7 +80,7 @@ class P_cash extends StatelessWidget {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        'Rs 20,000.00',
+                        getformettedamount(text: '20,000.00'),
                         style: GoogleFonts.notoSans(
                             color: Colors.black,
                             fontSize: 16,

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lezrapp/api_model/salseandpurchasemodel.dart';
 
 import '../../Const.dart';
+import '../../api/const_apis.dart';
 import '../../getx controller/summarycontroller.dart';
 import '../../helper.dart';
 
@@ -87,55 +88,52 @@ class _purchaseState extends State<purchase> {
                               ),
                             ],
                           ),
-                          Container(
-                            width: screenwidth(context,dividedby: 3),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Rs ${widget.salsepuchase.summery[index].purchase.toStringAsFixed(0)}',
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Rs ${widget.salsepuchase.summery[index].purchasePayment.toStringAsFixed(0)}',
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Rs ${widget.salsepuchase.summery[index].payable.toStringAsFixed(0)}',
-                                      style: TextStyle(
-                                          fontFamily: 'SF Pro Display',
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    getformettedamount(text: '${widget.salsepuchase.summery[index].purchase.toStringAsFixed(0)}'),
+                                    style: TextStyle(
+                                        fontFamily: 'SF Pro Display',
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    getformettedamount(text: '${widget.salsepuchase.summery[index].purchasePayment.toStringAsFixed(0)}'),
+                                    style: TextStyle(
+                                        fontFamily: 'SF Pro Display',
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    getformettedamount(text: '${widget.salsepuchase.summery[index].payable.toStringAsFixed(0)}'),
+                                    style: TextStyle(
+                                        fontFamily: 'SF Pro Display',
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                ],
+                              ),
+                            ],
                           )
                         ],
                       ),

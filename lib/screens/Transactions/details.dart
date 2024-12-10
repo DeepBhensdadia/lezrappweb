@@ -378,7 +378,7 @@ class _detailsState extends State<details> {
                                                                   .length >=
                                                               2
                                                           ? Text(
-                                                              "Rs. ${controller.trandetail.transactionTracking[1].amount}",
+                                                          getformettedamount(text: "${controller.trandetail.transactionTracking[1].amount}"),
                                                               style: TextStyle(
                                                                   decoration:
                                                                       TextDecoration
