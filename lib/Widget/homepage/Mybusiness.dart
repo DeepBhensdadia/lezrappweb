@@ -59,7 +59,8 @@ class My_Business extends StatelessWidget {
                           Container(
                             height: screenheight(context, dividedby: 11),
                             child: Badge(
-                              alignment: AlignmentDirectional(50, 0),
+                              alignment: AlignmentDirectional(
+                                  screenwidth(context, dividedby: 15), 0),
                               label: Text(
                                 summary.totalCustomer,
                                 style: TextStyle(
@@ -99,7 +100,8 @@ class My_Business extends StatelessWidget {
                           Container(
                             height: screenheight(context, dividedby: 11),
                             child: Badge(
-                              alignment: AlignmentDirectional(50, 0),
+                              alignment: AlignmentDirectional(
+                                  screenwidth(context, dividedby: 15), 0),
                               label: Text(
                                 summary.totalSupplier,
                                 style: TextStyle(
@@ -153,7 +155,8 @@ class My_Business extends StatelessWidget {
                             height: 10,
                           ),
                           Badge(
-                            alignment: AlignmentDirectional(50, 0),
+                            alignment: AlignmentDirectional(
+                                screenwidth(context, dividedby: 15), 0),
                             isLabelVisible:
                                 summary.totalFlagged == "0" ? false : true,
                             label: Text(
@@ -190,10 +193,10 @@ class My_Business extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                child: Image.asset(
-                                  "assets/gif/new.gif",
+                                child: Image.network(
+                                  "https://web.lezrapp.com/lezr/app-asset/new.gif",
                                   height: 15,
-                                  // width: 50,
+                                  // width: screenwidth(context,dividedby: 15),
                                 ),
                               )
                             ],
@@ -210,10 +213,10 @@ class My_Business extends StatelessWidget {
                                 onPressed: () {},
                               ),
                               Container(
-                                child: Image.asset(
-                                  "assets/gif/new.gif",
+                                child: Image.network(
+                                  "https://web.lezrapp.com/lezr/app-asset/new.gif",
                                   height: 15,
-                                  // width: 50,
+                                  // width: screenwidth(context,dividedby: 15),
                                 ),
                               )
                             ],

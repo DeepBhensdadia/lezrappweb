@@ -54,7 +54,7 @@ class Custom_buttons extends StatelessWidget {
                   name.tr,
                   style: TextStyle(
                       fontFamily: 'SF Pro Display',
-                      fontSize: screenheight(context, dividedby: 60),
+                      fontSize: screenwidth(context, dividedby: 60),
                       color: Colors.black,
                       fontWeight: FontWeight.w500),
                 ),

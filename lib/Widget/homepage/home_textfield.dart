@@ -160,12 +160,13 @@ Summarycontroller _scrollcontroll = Get.put(Summarycontroller());
                 ),
               ),
               child: Badge(
-                alignment: AlignmentDirectional(27, 2),
+
+                alignment: AlignmentDirectional(screenwidth(context,dividedby: 30), 2),
                 padding: EdgeInsets.all(2),
                 isLabelVisible: remider == 0 ? false : true,
                 label: Text(
                  jsonEncode( remider),
-                  style: TextStyle(color: Colors.white,fontSize: screenwidth(context,dividedby: 60)),
+                  style: TextStyle(color: Colors.white,fontSize: screenwidth(context,dividedby: 80)),
                 ),
                 child: IconButton(
                   onPressed: () {

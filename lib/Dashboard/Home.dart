@@ -86,7 +86,9 @@ class _HomeState extends State<Home> {
                                       children: [
                                         First_Container(
                                           name: 'YOU WILL GET',
-                                          rupees: getformettedamount(text: '${controller.summary.summery.totalReceivalble.toStringAsFixed(2)}'),
+                                          rupees: getformettedamount(
+                                              text:
+                                                  '${controller.summary.summery.totalReceivalble.toStringAsFixed(2)}'),
                                           onpress: () {
                                             String year =
                                                 DateTime.now().year.toString();
@@ -97,8 +99,9 @@ class _HomeState extends State<Home> {
                                         ),
                                         First_Container(
                                           name: 'YOU WILL PAY',
-                                          rupees:
-          getformettedamount(text: '${controller.summary.summery.totalPayable.toStringAsFixed(2)}'),
+                                          rupees: getformettedamount(
+                                              text:
+                                                  '${controller.summary.summery.totalPayable.toStringAsFixed(2)}'),
                                           onpress: () {
                                             String year =
                                                 DateTime.now().year.toString();
@@ -421,8 +424,8 @@ class _HomeState extends State<Home> {
                                                 Container(
                                                     height: 130,
                                                     width: 110,
-                                                    child: Image.asset(
-                                                        "assets/gif/Lezy Coin from LezrApp - Gold.gif")),
+                                                    child: Image.network(
+                                                        "https://web.lezrapp.com/lezr/app-asset/coin.gif")),
                                               ],
                                             ),
                                           ],
